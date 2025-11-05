@@ -1,0 +1,357 @@
+/* -------------------------------------------------------------------
+Variables
+------------------------------------------------------------------- */
+:root {
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  /* Màu trạng thái / accent */
+  --color-accent-1: #00B69B;
+  --color-accent-2: #6226EF;
+  --color-accent-3: #EF3826;
+  --color-accent-4: #FFA756;
+  --color-accent-5: #BA29FF;
+  --color-accent-6: #4880FF;
+
+  --zindex-modal: 1000;
+  --zindex-confirm: 1100;
+  --zindex-loading: 1100;
+  --zindex-toast: 1200;
+
+  --margin-step: 12px;
+  --padding-step: 12px;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: 'Philosopher', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+ul,
+li,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+hr {
+  border-color: var(--color-background);
+}
+
+
+
+/* ================= Toast ================= */
+.toast {
+  position: fixed;
+  top: 48px;
+  right: 50%;
+  background-color: var(--color-accent-6);
+  color: var(--color-white);
+  padding: 12px 20px;
+  border-radius: 6px;
+  min-width: 250px;
+  max-width: 480px;
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  pointer-events: none;
+  transform: translateX(50%) translateY(-100%);
+  z-index: var(--zindex-toast);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(50%) translateY(-50%);
+}
+
+.toast-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast button {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.toast-icon {
+  font-size: 1.2rem;
+}
+
+
+.toast-success {
+  background-color: var(--color-accent-1);
+}
+
+.toast-error {
+  background-color: var(--color-accent-3);
+}
+
+.toast-warning {
+  background-color: var(--color-accent-4);
+}
+
+/* ================= Loading ================= */
+.loading-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--zindex-loading);
+}
+
+.loading-wrapper.d-none {
+  display: none;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-message {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid var(--color-disabled);
+  border-top: 6px solid var(--color-accent-6);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= Confirm Modal ================= */
+.confirm-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--zindex-confirm);
+}
+
+.confirm-wrapper.d-none {
+  display: none;
+}
+
+.confirm-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.confirm-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.confirm-content {
+  background-color: var(--color-primary);
+  padding: 20px 30px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-content h3 {
+  color: var(--color-white);
+}
+
+.confirm-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-buttons button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#globalConfirmMessage {
+  color: var(--color-white);
+}
+
+#globalConfirmCancel {
+  background-color: var(--color-surface);
+  color: var(--color-white);
+}
+
+#globalConfirmOk {
+  background-color: var(--color-accent-6);
+  color: var(--color-white);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------------------------------------------
+Common
+------------------------------------------------------------------- */
+
+.mt-1 {
+  margin-top: var(--margin-step);
+}
+
+.mt-2 {
+  margin-top: calc(var(--margin-step) * 2);
+}
+
+.mt-3 {
+  margin-top: calc(var(--margin-step) * 3);
+}
+
+.mb-1 {
+  margin-bottom: var(--margin-step);
+}
+
+.mb-2 {
+  margin-bottom: calc(var(--margin-step) * 2);
+}
+
+.mb-3 {
+  margin-bottom: calc(var(--margin-step) * 3);
+}
+
+.pd-1 {
+  padding: var(--padding-step);
+}
+
+.pd-2 {
+  padding: calc(var(--padding-step) * 2);
+}
+
+.pd-3 {
+  padding: calc(var(--padding-step) * 3);
+}
+
+.w-1 {
+  width: 10%;
+}
+
+.w-2 {
+  width: 20%;
+}
+
+.w-3 {
+  width: 30%;
+}
+
+.w-4 {
+  width: 40%;
+}
+
+.w-5 {
+  width: 50%;
+}
+
+.w-6 {
+  width: 60%;
+}
+
+.w-7 {
+  width: 70%;
+}
+
+.w-8 {
+  width: 80%;
+}
+
+.w-9 {
+  width: 90%;
+}
+
+.w-10 {
+  width: 100%;
+}
+
+
+
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto
+}

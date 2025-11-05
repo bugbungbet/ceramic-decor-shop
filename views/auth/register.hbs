@@ -1,0 +1,220 @@
+{{!--
+{{#> _wrappers/auth-wrapper}}
+
+
+<div class="card shadow-sm p-4">
+    <h4 class="text-center mb-1">Đăng ký</h4>
+
+    <form id="registerForm">
+        <div class="mb-1 form-group">
+            <label class="form-label">Tên người dùng</label>
+            <input type="text" name="fullName" class="form-control" placeholder="Nhập tên người dùng..." required>
+        </div>
+
+        <div class="mb-1 form-group">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" placeholder="Nhập email..." required>
+        </div>
+
+        <div class="mb-1 form-group">
+            <label class="form-label">Mật khẩu</label>
+            <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu..." required>
+        </div>
+
+        <div class="mb-1 form-group">
+            <label class="form-label">Xác nhận mật khẩu</label>
+            <input type="password" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu..."
+                required>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+
+        <div class="text-center mt-3">
+            <a href="/login" class="text-decoration-none">Đã có tài khoản? Đăng nhập</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById('registerForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const fullName = formData.get('fullName').trim();
+            const email = formData.get('email').trim();
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirmPassword');
+
+            if (password !== confirmPassword) {
+                return showToast('Mật khẩu và xác nhận mật khẩu không khớp', 'error');
+            }
+
+            try {
+                showLoading('Đang đăng ký...');
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password })
+                });
+
+                const data = await res.json();
+                hideLoading();
+
+                if (res.ok) {
+                    showToast(data.message || 'Đăng ký thành công!', 'success');
+                    form.reset();
+                } else {
+                    showToast(data.message || 'Đăng ký thất bại', 'error');
+                }
+
+            } catch (err) {
+                hideLoading();
+                showToast('Đã xảy ra lỗi. Vui lòng thử lại.', 'error');
+                console.error(err);
+            }
+        });
+    });
+</script>
+
+
+{{/ _wrappers/auth-wrapper}} --}}
+
+
+
+{{#> _wrappers/auth-wrapper}}
+
+<div class="auth-page register-page">
+    <div class="container auth-container">
+        <!-- Left -->
+        <div class="auth-left">
+            <div class="auth-brand">
+                <div class="auth-logo">BranDeco</div>
+                <div class="auth-text">
+                    <h2 class="auth-title">Handcrafted. Timeless. Yours.</h2>
+                    <p class="auth-subtitle">
+                        Tại BranDecO, chúng tôi tin rằng vẻ đẹp chân thật đến từ sự tỉ mỉ trong từng chi tiết. Khám phá
+                        thế giới gốm mộc, nơi truyền thống và hiện đại gặp nhau trong sự tinh tế.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: register form -->
+        <div class="auth-right">
+            <div class="card">
+                <h4 class="text-center">Đăng ký</h4>
+                <p class="subtitle mb-3">Sign up to enjoy the feature of Revolutie</p>
+
+                <form id="registerForm">
+                    <div class="mb-1 form-group">
+                        <label class="form-label">Họ và tên</label>
+                        <input type="text" name="fullName" id="fullNameInput" class="form-control"
+                            placeholder="Nhập họ tên..." required>
+                    </div>
+
+                    <div class="mb-1 form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" id="emailInput" class="form-control"
+                            placeholder="Nhập email..." required>
+                    </div>
+
+                    <div class="mb-1 form-group">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="password-wrap">
+                            <input type="password" name="password" id="passwordInput" class="form-control"
+                                placeholder="Nhập mật khẩu..." required>
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label class="form-label">Xác nhận mật khẩu</label>
+                        <div class="password-wrap">
+                            <input type="password" name="confirmPassword" id="confirmPasswordInput" class="form-control"
+                                placeholder="Nhập lại mật khẩu..." required>
+                            <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="registerBtn" type="submit" class="auth-btn">Đăng ký</button>
+
+                    <div class="auth-register-text">
+                        <span class="auth-no-account">Đã có tài khoản?</span>
+                        <a href="/login" class="auth-register-link">Đăng nhập tại đây</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("registerForm");
+        const passwordInput = document.getElementById("passwordInput");
+        const confirmInput = document.getElementById("confirmPasswordInput");
+        const togglePassword = document.getElementById("togglePassword");
+        const toggleConfirm = document.getElementById("toggleConfirmPassword");
+
+        // --- toggle password visibility ---
+        function setupToggle(btn, input) {
+            const icon = btn.querySelector("i");
+            btn.addEventListener("click", () => {
+                const show = input.type === "password";
+                input.type = show ? "text" : "password";
+                icon.classList.toggle("bi-eye", !show);
+                icon.classList.toggle("bi-eye-slash", show);
+            });
+        }
+        setupToggle(togglePassword, passwordInput);
+        setupToggle(toggleConfirm, confirmInput);
+
+        // --- handle submit ---
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const fullName = form.fullName.value.trim();
+            const email = form.email.value.trim();
+            const password = passwordInput.value.trim();
+            const confirmPassword = confirmInput.value.trim();
+
+            if (!fullName || !email || !password || !confirmPassword)
+                return showToast("Vui lòng điền đầy đủ thông tin!", "error");
+
+            if (password !== confirmPassword)
+                return showToast("Mật khẩu và xác nhận mật khẩu không khớp!", "error");
+
+            try {
+                showLoading("Đang đăng ký...");
+                const res = await fetch("/api/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ fullName, email, password }),
+                });
+
+                const data = await res.json();
+                hideLoading();
+
+                if (res.ok && data.success) {
+                    showToast(data.message || "Đăng ký thành công!", "success");
+                    window.location.href = "/login";
+                } else {
+                    showToast(data.message || "Đăng ký thất bại!", "error");
+                }
+            } catch (err) {
+                hideLoading();
+                showToast("Đã xảy ra lỗi, vui lòng thử lại!", "error");
+                console.error(err);
+            }
+        });
+    });
+</script>
+
+{{/ _wrappers/auth-wrapper}}

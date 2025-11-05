@@ -1,0 +1,1088 @@
+/* -------------------------------------------------------------------
+Variables
+------------------------------------------------------------------- */
+:root {
+    --color-neutral-1: #918F80;
+    --color-neutral-2: #9B9281;
+    --color-neutral-3: #E6E5E0;
+    --color-dark-1: #1E1D21;
+    --color-brown-1: #594433;
+    --color-brown-2: #AF9A7E;
+}
+
+
+/* ===== HEADER ===== */
+/* START */
+.header .header-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    /* background-color: var(--color-white); */
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+    z-index: 99;
+}
+
+.header .container {
+    height: 64px;
+    position: relative;
+    /* để center dùng absolute */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* cho left và right */
+    /* padding: 0 24px; */
+}
+
+/* LEFT */
+.header .header-left .logo {
+    /* font-size: 1.5rem;
+  font-weight: bold; */
+    color: var(--color-brown-1);
+    /* text-decoration: none; */
+    font-family: 'ClimateCrisis';
+    font-size: 24px;
+    z-index: 2;
+    /* để không bị center che */
+}
+
+/* CENTER */
+.header .header-center {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    z-index: 1;
+    pointer-events: none;
+
+}
+
+.header .header-center .menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    align-items: center;
+}
+
+.header .header-center .menu li a {
+    /* text-decoration: none; */
+    display: block;
+    height: 100%;
+    text-align: center;
+    color: var(--color-black);
+    padding: 12px;
+    font-family: 'Philosopher';
+    pointer-events: auto;
+
+    /* font-weight: 500; */
+}
+
+/* RIGHT */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-right .btn {
+    font-family: 'Philosopher';
+    color: var(--color-brown-1);
+    border: 1px solid var(--color-brown-1);
+    padding: 10px 16px;
+    border-radius: 20px;
+    transition: .5s all linear;
+}
+
+.header-right .btn:hover {
+    background-color: var(--color-brown-1);
+    color: var(--color-white);
+}
+
+
+.header-right .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar-icon {
+    font-size: 32px;
+    color: var(--color-brown-1);
+}
+
+.header-right .user-name {
+    font-family: 'Philosopher';
+    font-weight: 500;
+    color: var(--color-brown-1);
+}
+
+
+
+
+
+/* Ẩn hamburger ở desktop/tablet */
+.header-hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--color-brown-1);
+}
+
+
+@media (max-width: 991px) {
+    .header .header-center {
+        /* top: 64px; */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: fit-content;
+        transform: translateY(-100%);
+        transition: .3s all linear;
+    }
+
+    .header.show .header-center {
+        transform: translateY(64px);
+    }
+
+    .header .header-center .menu {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--color-neutral-1);
+    }
+
+    .header.show .header-center .menu li,
+    .header.show .header-center .menu a {
+        width: 100%;
+    }
+
+    .header.show .header-center .menu a {
+        text-align: center;
+    }
+
+    .header.show .header-center .menu a:hover {
+        background-color: var(--color-neutral-2);
+    }
+
+    .header-hamburger {
+        display: block;
+    }
+}
+
+@media (max-width: 767px) {}
+
+@media (max-width: 575px) {
+    .header .header-left .logo {
+        font-size: 20px;
+    }
+    .header-right .btn {
+        font-size: 14px;
+    }
+    .header-right {
+        gap: 10px;
+    }
+}
+
+
+
+
+/* END */
+
+
+
+/* ===== BANNER ===== */
+/* START */
+.banner {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* full màn hình */
+    overflow: hidden;
+}
+
+.banner-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* hình fill toàn màn hình */
+    /* z-index: 0; */
+}
+
+
+.banner-content {
+    position: relative;
+    /* z-index: 1; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.banner-content .container {
+    /* position: relative;
+    z-index: 1;
+    height: 100%; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center; */
+}
+
+.banner-content h3 {
+    font-family: 'Philosopher';
+    color: var(--color-neutral-1);
+    letter-spacing: 6px;
+}
+
+.banner-content h1 {
+    font-family: 'ClimateCrisis';
+    color: var(--color-brown-1);
+    font-size: 124px;
+}
+
+.banner-content p {
+    margin-top: 12px;
+    width: 70%;
+    font-family: 'Philosopher';
+    color: var(--color-black);
+    font-size: 14px;
+}
+
+.banner-buttons {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+}
+
+.banner-buttons .btn {
+    padding: 12px 24px;
+    border: 1px solid var(--color-black);
+    border-radius: 50px;
+    display: block;
+    font-family: 'Philosopher';
+}
+
+.banner-buttons .btn-view-products {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+
+@media (max-width: 1240px) {
+    .banner-content h1 {
+        font-size: 96px;
+    }
+}
+
+@media (max-width: 991px) {
+    .banner-content h1 {
+        font-size: 72px;
+    }
+}
+
+@media (max-width: 767px) {
+    .banner-content h1 {
+        font-size: 64px;
+    }
+
+    .banner-content p {
+        width: 90%;
+    }
+}
+
+@media (max-width: 575px) {
+    .banner-content h1 {
+        font-size: 48px;
+    }
+
+    .banner-content h3 {
+        font-size: 12px;
+    }
+}
+
+/* END */
+
+
+
+
+
+
+/* START */
+.featured-collection {
+    padding: 80px 0;
+    background-color: var(--color-neutral-3);
+    /* text-align: center; */
+}
+
+.featured-collection .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.featured-collection .section-title {
+    font-family: 'MuseoModerno', '3B';
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--color-brown-1);
+    font-size: 48px;
+}
+
+.featured-collection .section-subtitle {
+    color: var(--color-neutral-1);
+    text-align: center;
+    font-family: 'Philosopher', '3B';
+    font-style: italic;
+}
+
+
+
+
+.collection-item {
+    margin-top: 56px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.collection-item.reverse {
+    flex-direction: row-reverse;
+}
+
+.collection-content,
+.collection-image {
+    flex: 1 1 50%;
+}
+
+.collection-content {
+    display: flex;
+    align-items: center;
+    width: calc(100vw/2);
+}
+
+.collection-item:not(.reverse) .collection-content .inner {
+    margin-left: calc((100vw - 1200px) / 2);
+    margin-right: 56px;
+}
+
+.collection-item.reverse .collection-content .inner {
+    margin-right: calc((100vw - 1200px) / 2);
+    margin-left: 56px;
+}
+
+.collection-content .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.collection-subtitle {
+    font-family: 'Philosopher', '3B';
+    font-size: 14px;
+    font-style: italic;
+    color: var(--color-neutral-1);
+}
+
+.collection-title {
+    font-family: 'MuseoModerno', '3B';
+    font-size: 32px;
+    color: var(--color-brown-3);
+    margin-bottom: 12px;
+}
+
+.collection-desc {
+    font-size: 16px;
+    color: var(--color-black);
+    margin-bottom: 24px;
+    margin-top: 24px;
+    text-align: justify;
+}
+
+.btn-view-more {
+    border: 1px solid var(--color-brown-1);
+    background-color: transparent;
+    color: var(--color-brown-1);
+    padding: 10px 22px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    line-height: 1;
+}
+
+.btn-view-more i {
+    display: block;
+}
+
+.collection-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 1240px) {
+    .collection-item:not(.reverse) .collection-content .inner {
+        margin-left: calc((100vw - 992px) / 2);
+        margin-right: 24px;
+    }
+
+    .collection-item.reverse .collection-content .inner {
+        margin-right: calc((100vw - 992px) / 2);
+        margin-left: 24px;
+    }
+
+}
+
+@media (max-width: 1023px) {
+    .collection-item:not(.reverse) .collection-content .inner {
+        margin: 24px;
+    }
+
+    .collection-item.reverse .collection-content .inner {
+        margin: 24px;
+    }
+}
+
+
+
+@media (max-width: 991px) {
+    .collection-image img {
+        aspect-ratio: 1/1;
+        height: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .collection-item,
+    .collection-item.reverse {
+        flex-direction: column;
+    }
+
+    .collection-content {
+        width: 100%;
+    }
+
+    .collection-item.reverse .inner {
+        align-items: end;
+    }
+
+    .collection-item.reverse .collection-title {
+        text-align: end;
+    }
+}
+
+@media (max-width: 575px) {
+    .collection-image img {
+        height: 500px;
+    }
+
+}
+
+/* END */
+
+
+
+
+/* NEW PRODUCT */
+/* START */
+.new-products-section {
+    background: url('/images/new-product-bg.png') center/cover no-repeat;
+    padding: 56px 0;
+}
+
+.new-products-section .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.new-products-section .section-title {
+    font-size: 36px;
+    color: var(--color-white);
+    margin: 0;
+    font-family: 'MuseoModerno', '3B';
+}
+
+.new-products-section .view-all {
+    color: var(--color-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.new-products-section .view-all:hover {
+    color: var(--color-brown-2);
+    transform: translateX(4px);
+}
+
+.new-products-section .product-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.new-products-section .product-item {
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-products-section .product-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+}
+
+.new-products-section .product-item:hover {
+    transform: translateY(-4px);
+}
+
+.new-products-section .product-name {
+    font-size: 16px;
+    color: var(--color-white);
+    margin: 14px 0 6px;
+}
+
+.new-products-section .product-price {
+    color: var(--color-white);
+    font-size: 15px;
+}
+
+.new-products-section .product-nav {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.new-products-section .btn-nav {
+    background: transparent;
+    color: var(--color-neutral-2);
+    border: 1px solid var(--color-neutral-2);
+    border-radius: 22px;
+    margin: 0 8px;
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+}
+
+.new-products-section .btn-nav i {
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.new-products-section .btn-nav:hover {
+    color: var(--color-white);
+    border-color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+.new-products-section .btn-nav:hover i {
+    color: var(--color-white);
+}
+
+
+
+
+
+@media (max-width: 1240px) {}
+
+@media (max-width: 1023px) {}
+
+@media (max-width: 991px) {
+    .new-products-section .product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {}
+
+@media (max-width: 575px) {
+    .new-products-section .section-title {
+        font-size: 24px;
+    }
+}
+
+
+
+
+
+
+/* END */
+
+
+
+
+.share-section,
+.about-section {
+    padding: 56px 0;
+    background-color: var(--color-neutral-3);
+}
+
+.section-container {
+    display: flex;
+    gap: 56px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-container.reverse {
+    flex-direction: row-reverse;
+}
+
+.section-left {
+    flex: 1;
+    /* 1 phần */
+}
+
+.section-right {
+    flex: 2;
+    /* 2 phần */
+}
+
+.section-container .section-title {
+    font-size: 36px;
+    font-family: 'MuseoModerno', '3B';
+    color: var(--color-brown-1);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.section-desc {
+    margin-top: 16px;
+    font-size: 16px;
+    font-family: 'Philosopher', serif;
+    color: var(--color-black);
+    text-align: justify;
+}
+
+
+
+.share-image-left {
+    width: 300px;
+    height: 300px;
+    border-top-right-radius: 120px;
+}
+
+.share-image-right {
+    width: 100%;
+    aspect-ratio: 3 / 3;
+}
+
+
+.share-section .share-contents {
+    background: url('/images/share-bg-right.png') center/cover no-repeat;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 96px 64px;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.share-section .section-right h3 {
+    font-style: italic;
+    font-size: 24px;
+}
+
+.share-section p {
+    margin-top: 32px;
+    text-align: justify;
+    word-spacing: 2px;
+}
+
+.share-items {
+    display: flex;
+    gap: 24px;
+}
+
+.share-item {
+    flex: 1;
+    background-color: var(--color-neutral-3);
+    padding: 24px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+
+
+
+.about-section .section-right {
+    display: flex;
+    /* gap: 24px; */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.about-img {
+    width: calc(50% - 12px);
+    object-fit: cover;
+    aspect-ratio: 3 / 4;
+}
+
+.about-section .section-container {
+    margin-right: calc((100vw - 1200px) / 2);
+}
+
+.about-section .section-left {
+    /* margin-right: calc((100vw - 1200px) / 2); */
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+}
+
+.about-section .section-desc {
+    text-align: end;
+    color: var(--color-brown-1);
+}
+
+.about-section .btn-learn-more {
+    margin-top: 32px;
+    background-color: var(--color-brown-1);
+    color: var(--color-white);
+    padding: 16px 22px;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 1240px) {
+    .about-section .section-container {
+        margin-right: calc((100vw - 992px) / 2);
+    }
+
+    .about-section .section-container {
+        max-width: 1240px;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .share-section .section-right h3 {
+        font-size: 20px;
+    }
+
+    .share-section p {
+        font-size: 14px;
+    }
+
+    .about-section .section-container {
+        margin-right: 24px;
+    }
+}
+
+
+
+@media (max-width: 991px) {
+    .share-section .section-right h3 {
+        font-size: 22px;
+    }
+
+    .share-section p {
+        font-size: 16px;
+    }
+
+    .section-container {
+        flex-direction: column;
+        margin: 0 24px;
+    }
+
+    .section-left,
+    .about-section .section-left {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .section-right {
+        width: 100%;
+    }
+
+    .section-container.reverse {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 767px) {}
+
+@media (max-width: 575px) {}
+
+
+
+
+
+
+
+
+
+.customer-feedback {
+    background-color: #f9f9f9;
+    /* màu nền nhạt */
+    padding: 80px 0;
+}
+
+.customer-feedback .section-header .section-title {
+    font-size: 36px;
+    font-family: 'MuseoModerno', '3B';
+    color: var(--color-neutral-2);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.section-header .section-subtitle {
+    font-size: 16px;
+    color: var(--color-neutral-2);
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.feedback-list {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.feedback-item {
+    flex: 1 1 300px;
+    /* tự co dãn */
+}
+
+.feedback-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-bottom: 16px;
+}
+
+.customer-name {
+    padding: 0 24px;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--color-brown-1);
+}
+
+.customer-comment {
+    padding: 0 24px;
+    font-size: 14px;
+    color: var(--color-brown-1);
+    line-height: 1.6;
+    text-align: justify;
+}
+
+
+
+
+@media (max-width: 1240px) {}
+
+@media (max-width: 1023px) {}
+
+@media (max-width: 992px) {}
+
+
+@media (max-width: 991px) {}
+
+@media (max-width: 767px) {
+    .customer-feedback .section-title {
+        text-align: center;
+
+    }
+}
+
+@media (max-width: 575px) {}
+
+
+
+
+
+
+
+
+
+
+/* ===== FOOTER ===== */
+/* START */
+.site-footer {
+    background-color: var(--color-neutral-2);
+    padding: 56px 0;
+    color: var(--color-black);
+}
+
+.footer-container {
+    display: flex;
+    gap: 40px;
+    /* flex-wrap: wrap; */
+}
+
+.footer-left,
+.footer-right {
+    flex: 1 1 50%;
+}
+
+.footer-left .footer-logo {
+    font-family: 'ClimateCrisis';
+    font-size: 24px;
+    color: var(--color-brown-1);
+}
+
+.footer-left p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    /* color: var(--color-neutral-3); */
+}
+
+.footer-right {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 150px;
+    margin-bottom: 24px;
+}
+
+.footer-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-brown-1);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links li a {
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+    color: var(--color-brown-1);
+}
+
+
+.footer-divider {
+    width: 100%;
+    border-color: var(--color-black);
+}
+
+/* Bottom row */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+.footer-bottom a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: var(--color-brown-1);
+}
+
+.footer-privacy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 992px) {
+    .footer-container {
+        flex-direction: column;
+    }
+
+    .footer-left,
+    .footer-right {
+        flex: 1 1 100%;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}
+
+
+
+
+
+
+
+
+@media (max-width: 1240px) {
+    .container {
+        max-width: 992px;
+    }
+}
+
+@media (max-width: 1023px) {
+    .container {
+        margin: 0 24px;
+    }
+}
+
+@media (max-width: 991px) {}
+
+@media (max-width: 767px) {}
+
+@media (max-width: 575px) {}

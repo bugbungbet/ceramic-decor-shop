@@ -1,0 +1,18 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 380px; border-radius: 16px;">
+        <h4 class="text-center mb-4">Xác nhận Email</h4>
+
+        <form id="verifyForm">
+            <input type="hidden" id="userId" value=""> <!-- điền bằng JS từ response register -->
+
+            <div class="mb-3">
+                <label class="form-label">Mã xác nhận</label>
+                <input type="text" id="code" class="form-control" placeholder="Nhập mã 6 số..." required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Xác nhận</button>
+
+            <div id="message" class="text-center mt-3 text-danger"></div>
+        </form>
+    </div>
+</div>

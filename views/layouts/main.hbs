@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
+
+  <link rel='stylesheet' href='/stylesheets/fonts.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+
+</head>
+
+<body>
+  <div class="main-layout">
+    {{{body}}}
+  </div>
+
+  {{> _shared/toast}}
+
+  {{> _shared/loading}}
+
+  {{> _shared/confirm}}
+
+
+  <script type="module" src="/javascripts/admin/main.module.js"></script>
+</body>
+
+</html>

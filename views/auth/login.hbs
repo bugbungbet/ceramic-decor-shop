@@ -1,0 +1,166 @@
+{{#> _wrappers/auth-wrapper}}
+
+
+<div class="auth-page login-page">
+    {{!-- <img src="./images/banner_1.png" alt="Banner gốm sứ" class="login-bg"> --}}
+
+    <div class="container auth-container">
+        <div class="auth-left">
+            <div class="auth-brand">
+                <div class="auth-logo">BranDeco</div>
+                <div class="auth-text">
+                    <h2 class="auth-title">Handcrafted. Timeless. Yours.</h2>
+                    <p class="auth-subtitle">
+                        Tại BranDecO, chúng tôi tin rằng vẻ đẹp chân thật đến từ sự tỉ mỉ trong từng chi tiết. Khám phá
+                        thế giới gốm mộc, nơi truyền thống và hiện đại gặp nhau trong sự tinh tế.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: login form -->
+        <div class="auth-right">
+            <div class="card">
+                <h4 class="text-center">Đăng nhập</h4>
+                <p class="subtitle mb-3">Sign in to enjoy the feature of Revolutie</p>
+                <form id="loginForm">
+                    <div class="mb-1 form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Nhập email..." required>
+                    </div>
+
+                    <div class="mb-3 form-group">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="password-wrap">
+                            <input type="password" name="password" id="passwordInput" class="form-control"
+                                placeholder="Nhập mật khẩu..." required>
+
+                            <button type="button" class="toggle-password" id="togglePassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="loginBtn" type="submit" class="auth-btn">Đăng nhập</button>
+
+                    <div class="auth-register-text">
+                        <span class="auth-no-account">Bạn chưa có tài khoản?</span>
+                        <a href="/register" class="auth-register-link">Đăng ký tại đây</a>
+                    </div>
+
+                    <!-- Resend verification -->
+                    <div id="resendWrapper" class="text-center mt-3 d-none">
+                        <p class="mb-1" id="resendMessage">
+                            Tài khoản chưa xác nhận. Bạn có thể gửi lại mã xác nhận.
+                        </p>
+                        <button type="button" id="resendBtn" class="btn btn-sm btn-outline-warning">Gửi lại mã</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById('loginForm');
+        const resendWrapper = document.getElementById('resendWrapper');
+        const resendBtn = document.getElementById('resendBtn');
+        const resendMessage = document.getElementById('resendMessage');
+        let currentEmail = '';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const email = formData.get('email').trim();
+            const password = formData.get('password');
+
+            currentEmail = email; // lưu lại email hiện tại để gửi lại
+
+            if (!email || !password) {
+                return showToast('Vui lòng nhập đầy đủ email và mật khẩu', 'error');
+            }
+
+            try {
+                showLoading('Đang đăng nhập...');
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+                hideLoading();
+                console.log(data);
+                if (data.success) {
+                    showToast(data.message || 'Đăng nhập thành công!', 'success');
+                    window.location.href = '/';
+                } else {
+                    showToast(data.message || 'Đăng nhập thất bại!', 'error');
+                    // Nếu lỗi chưa xác nhận, hiện nút resend
+                    if (data.code === 403) {
+                        resendWrapper.classList.add('show');
+                        resendMessage.innerText = data.message || 'Tài khoản chưa xác nhận. Bạn có thể gửi lại mã xác nhận.';
+                    } else {
+                        showToast(data.message || 'Đăng nhập thất bại', 'error');
+                        resendWrapper.classList.remove('show');
+                    }
+                }
+
+            } catch (err) {
+                hideLoading();
+                showToast('Đã xảy ra lỗi. Vui lòng thử lại.', 'error');
+                console.error(err);
+            }
+        });
+
+        // === Gửi lại mã xác nhận ===
+        resendBtn.addEventListener('click', async () => {
+            if (!currentEmail) return;
+
+            try {
+                showLoading('Đang gửi lại mã xác nhận...');
+                const res = await fetch('/api/resend-verification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail })
+                });
+
+                const data = await res.json();
+                hideLoading();
+
+                if (data.code === 201) {
+                    showToast(data.message || 'Đã gửi lại mã xác nhận. Vui lòng kiểm tra email.', 'success');
+                } else {
+                    resendMessage.innerText = data.message || 'Tài khoản chưa xác nhận. Bạn có thể gửi lại mã xác nhận.';
+                    showToast(data.message || 'Không thể gửi lại mã. Vui lòng thử lại sau.', 'error');
+                }
+            } catch (err) {
+                hideLoading();
+                showToast('Đã xảy ra lỗi. Vui lòng thử lại.', 'error');
+                console.error(err);
+            }
+        });
+
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('passwordInput');
+            const icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+
+
+    });
+</script>
+
+{{/ _wrappers/auth-wrapper}}

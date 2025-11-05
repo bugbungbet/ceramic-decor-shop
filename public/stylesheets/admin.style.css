@@ -1,0 +1,723 @@
+/* -------------------------------------------------------------------
+Variables
+------------------------------------------------------------------- */
+:root {
+    /* Màu chính */
+    --color-primary: #273142;
+
+    /* Màu nền tối */
+    --color-background: #1B2431;
+    --color-surface: #323D4E;
+
+    --color-text-primary: var(--color-white);
+
+    --color-stroke-1: #313D4F;
+    --color-stroke-2: rgba(207, 207, 207, 0.1);
+
+    --color-disabled: #3D4A5F;
+
+
+    --zindex-admin-sidebar: 99;
+
+    --admin-sidebar-width: 280px;
+    --transition-speed: 0.3s;
+
+    --margin-step: 12px;
+    --padding-step: 12px;
+}
+
+/* -------------------------------------------------------------------
+Layout
+------------------------------------------------------------------- */
+
+.admin-layout {
+    display: flex;
+    color: var(--color-text-primary);
+    width: 100%;
+}
+
+.admin-layout .content {
+    margin-left: var(--admin-sidebar-width);
+    background-color: var(--color-background);
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 24px;
+    flex: 1;
+}
+
+/* -------------------------------------------------------------------
+Sidebar
+------------------------------------------------------------------- */
+.admin-sidebar {
+    width: var(--admin-sidebar-width);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary) 100%);
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    z-index: var(--zindex-admin-sidebar);
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: all var(--transition-speed) ease;
+}
+
+.admin-sidebar:hover {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+.admin-sidebar .admin-logo {
+    padding: 0 24px 24px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-white);
+    border-bottom: 1px solid var(--color-stroke-1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-sidebar .admin-logo i {
+    color: var(--color-accent-6);
+    font-size: 1.8rem;
+}
+
+.admin-sidebar .admin-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.admin-sidebar .admin-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px;
+    list-style: none;
+    flex-grow: 1;
+}
+
+.admin-sidebar .admin-nav ul li a {
+    position: relative;
+    font-weight: 400;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--color-white);
+    overflow: hidden;
+}
+
+.admin-sidebar .admin-nav ul li a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: 6px;
+    height: 100%;
+    background-color: var(--color-accent-6);
+    border-radius: 0 4px 4px 0;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.admin-sidebar .admin-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.admin-sidebar .admin-nav ul li a:hover::before {
+    opacity: 1;
+    left: 0;
+}
+
+.admin-sidebar .admin-nav ul li a.active {
+    background-color: var(--color-accent-6);
+    box-shadow: 0 4px 12px rgba(72, 128, 255, 0.3);
+}
+
+.admin-sidebar .admin-nav ul li a.active::before {
+    opacity: 1;
+    left: 0;
+}
+
+.admin-sidebar .admin-nav ul li a.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
+
+.admin-sidebar .admin-nav ul li a i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.admin-sidebar .admin-nav ul li {
+    animation: slideInLeft 0.4s ease forwards;
+    opacity: 0;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(8) {
+    animation-delay: 0.45s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(9) {
+    animation-delay: 0.5s;
+}
+
+.admin-sidebar .admin-nav ul li:nth-child(10) {
+    animation-delay: 0.55s;
+}
+
+/* Logout section at the bottom */
+.admin-sidebar .logout-section {
+    margin-top: auto;
+    padding: 20px 16px 0;
+    border-top: 1px solid var(--color-stroke-1);
+}
+
+.admin-sidebar .logout-section a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--color-accent-3);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.admin-sidebar .logout-section a:hover {
+    background-color: rgba(239, 56, 38, 0.1);
+    transform: translateX(5px);
+}
+
+.admin-sidebar .logout-section a i {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .admin-layout .content {
+        margin-left: 0;
+    }
+}
+
+
+
+
+/* -------------------------------------------------------------------
+Page
+------------------------------------------------------------------- */
+
+.admin-layout .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-layout .page-title {
+    font-size: 36px;
+}
+
+.admin-layout .page-sub-title {
+    font-weight: 100;
+    font-size: 24px;
+}
+
+
+
+
+/* ================================
+Admin Table Styles
+================================ */
+.admin-layout table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+/* Table header */
+.admin-layout table thead {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
+.admin-layout table thead th {
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-stroke-1);
+}
+
+
+.action-add-btn {
+    background-color: var(--color-accent-6);
+    padding: 12px;
+    border-radius: 6px;
+    color: var(--color-text-primary);
+    font-size: 14px;
+}
+
+/* Table body */
+.admin-layout table tbody {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+.admin-layout table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.admin-layout table tbody tr:hover {
+    background-color: var(--color-surface);
+}
+
+.admin-layout table td {
+    padding: 8px 12px;
+    font-weight: 300;
+    border-bottom: 1px solid var(--color-stroke-1);
+}
+
+.admin-layout table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-layout table td,
+.admin-layout table th {
+    vertical-align: middle;
+}
+
+.admin-layout table th.fit,
+.admin-layout table td.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.admin-layout table td.center,
+.admin-layout table th.center {
+    text-align: center;
+}
+
+.admin-layout .action-group {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background-color: var(--color-surface);
+    border-radius: 8px;
+    border: 1px solid var(--color-stroke-2);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-layout .action-divider {
+    width: 1px;
+    /* height: 100%; */
+    background-color: var(--color-stroke-2);
+    display: block;
+}
+
+.admin-layout .action-btn {
+    transition: all 0.3s ease;
+}
+
+.admin-layout .action-btn:hover {
+    background-color: var(--color-primary);
+}
+
+.admin-layout .delete-btn {
+    color: var(--color-accent-3);
+    font-size: 16px;
+    padding: 8px 16px;
+
+}
+
+.admin-layout .edit-btn {
+    color: var(--color-accent-4);
+    font-size: 16px;
+    padding: 8px 16px;
+}
+
+.admin-layout .action-btn.disabled {
+    background-color: var(--color-stroke-2);
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.admin-layout .action-btn.disabled i {
+    color: var(--color-stroke-1);
+}
+
+
+/* Table pagination */
+.admin-layout .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-layout .pagination-info {
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--color-white);
+    transition: all 0.4s ease;
+}
+
+.admin-layout .pagination-pages {
+    overflow: hidden;
+}
+
+.admin-layout .pagination-pages ul {
+    display: flex;
+}
+
+.admin-layout .page-item a {
+    padding: 8px 16px;
+    display: block;
+    transition: all .3s ease;
+}
+
+.admin-layout .page-item a:hover {
+    background-color: var(--color-surface);
+}
+
+.admin-layout .page-item.active a {
+    background-color: var(--color-accent-6);
+}
+
+/* -------------------------------------------------------------------
+Common
+------------------------------------------------------------------- */
+
+.admin-layout .section {
+    border: 1px solid var(--color-stroke-1);
+    border-radius: 14px;
+    background-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
+}
+
+
+.error {
+    color: var(--color-accent-3);
+}
+
+
+.ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.line-2 {
+    -webkit-line-clamp: 2 !important;
+}
+
+.line-3 {
+    -webkit-line-clamp: 3 !important;
+}
+
+/* Base switch */
+.switch {
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    background: var(--color-background);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.switch.active {
+    background: var(--color-accent-1);
+}
+
+.switch-slider {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-white);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s;
+}
+
+.switch.active .switch-slider {
+    left: 26px;
+}
+
+
+/* Select */
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+}
+.select-input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+  display: none;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 100;
+}
+.select-dropdown.show {
+  display: block;
+}
+.select-item {
+  padding: 6px;
+  cursor: pointer;
+}
+.select-item:hover {
+  background: #eee;
+}
+.select-item.selected {
+  background: #007bff;
+  color: #fff;
+}
+
+
+.empty-value {
+    color: var(--color-disabled);
+}
+
+
+/* Animation for sidebar items */
+
+.animate-slide-in-up {
+    animation: slideInUp 0.4s ease forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* Action Modal */
+
+.admin-layout .modal-wrapper {
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: var(--admin-sidebar-width);
+    opacity: 0;
+    overflow: hidden;
+    transition: all .3s ease;
+    pointer-events: none;
+}
+
+.admin-layout .modal-wrapper.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+.admin-layout .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-layout .modal-wrapper .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: calc(var(--zindex-modal) - 1);
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.admin-layout .modal-wrapper .modal-panel {
+    position: absolute;
+    width: 50%;
+    padding: 24px;
+    background-color: var(--color-surface);
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+    overflow: hidden;
+    right: -100%;
+    z-index: var(--zindex-modal);
+    transition: all .3s ease;
+}
+
+.admin-layout .modal-wrapper.show .modal-panel {
+    right: 0%;
+}
+
+.admin-layout .modal-close i {
+    color: var(--color-accent-3);
+    font-size: 16px;
+}
+
+.admin-layout .modal-wrapper .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+.admin-layout .modal-wrapper .modal-body .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--margin-step);
+}
+
+.admin-layout .modal-wrapper .modal-body label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+}
+
+.admin-layout .modal-wrapper .modal-body select,
+.admin-layout .modal-wrapper .modal-body input,
+.admin-layout .modal-wrapper .modal-body textarea {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-stroke-1);
+    background-color: var(--color-background);
+    color: var(--color-white);
+    font-size: 14px;
+    outline: none;
+    transition: border-color var(--transition-speed);
+}
+
+.admin-layout .modal-wrapper .modal-body input:focus,
+.admin-layout .modal-wrapper .modal-body textarea:focus {
+    border-color: var(--color-accent-6);
+}
+
+.admin-layout .modal-wrapper .modal-body textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.admin-layout .modal-wrapper .modal-body .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.admin-layout .modal-wrapper .modal-body .btn-primary {
+    background-color: var(--color-accent-6);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color var(--transition-speed);
+}
+
+.admin-layout .modal-wrapper .modal-body .btn-primary:hover {
+    background-color: var(--color-accent-6);
+}
+
+.admin-layout .modal-wrapper .modal-body .btn-secondary {
+    background-color: var(--color-disabled);
+    color: var(--color-white);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color var(--transition-speed);
+}
+
+.admin-layout .modal-wrapper .modal-body .btn-secondary:hover {
+    background-color: #4d5c73;
+}
