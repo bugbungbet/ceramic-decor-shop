@@ -10,6 +10,10 @@ Variables
     --color-brown-2: #AF9A7E;
 }
 
+html,
+body {
+    font-family: 'Philosopher', sans-serif;
+}
 
 /* ===== HEADER ===== */
 /* START */
@@ -134,8 +138,6 @@ Variables
 
 
 
-
-
 /* Ẩn hamburger ở desktop/tablet */
 .header-hamburger {
     display: none;
@@ -143,6 +145,84 @@ Variables
     font-size: 24px;
     color: var(--color-brown-1);
 }
+
+
+
+
+/* Dropdown menu */
+.dropdown-menu {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background-color: var(--color-white);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    min-width: 160px;
+    z-index: 100;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+/* Menu items */
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--color-dark-1);
+    text-decoration: none;
+    font-family: 'Philosopher', serif;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.dropdown-menu li a:hover {
+    background-color: var(--color-brown-2);
+    color: var(--color-white);
+}
+
+/* Show dropdown on hover */
+.user-info:hover .dropdown-menu {
+    display: block;
+}
+
+
+.search-box {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    border-radius: 22px;
+    background-color: #E6E5E080;
+    border: 2px solid #E6E5E0;
+    padding: 0 16px;
+    color: var(--color-neutral-2);
+    width: 560px;
+}
+
+.search-box input {
+    background: transparent;
+    font-family: 'Philosopher', 'B3';
+    color: var(--color-neutral-2);
+    border: none;
+    outline: none;
+    margin: 0 24px;
+    height: 100%;
+    font-size: 16px;
+    flex: 1;
+}
+
+.search-btn i {
+    font-size: 16px;
+    color: var(--color-neutral-2);
+}
+
+
+
+
 
 
 @media (max-width: 991px) {
@@ -185,17 +265,27 @@ Variables
     }
 }
 
-@media (max-width: 767px) {}
+@media (max-width: 767px) {
+    .search-box {
+        width: 480px;
+    }
+}
 
 @media (max-width: 575px) {
     .header .header-left .logo {
         font-size: 20px;
     }
+
     .header-right .btn {
         font-size: 14px;
     }
+
     .header-right {
         gap: 10px;
+    }
+
+    .search-box {
+        width: 360px;
     }
 }
 
@@ -266,7 +356,6 @@ Variables
 .banner-content p {
     margin-top: 12px;
     width: 70%;
-    font-family: 'Philosopher';
     color: var(--color-black);
     font-size: 14px;
 }
@@ -346,7 +435,7 @@ Variables
 }
 
 .featured-collection .section-title {
-    font-family: 'MuseoModerno', '3B';
+    font-family: 'MuseoModerno', 'B3';
     font-size: 28px;
     margin-bottom: 10px;
     text-align: center;
@@ -357,7 +446,7 @@ Variables
 .featured-collection .section-subtitle {
     color: var(--color-neutral-1);
     text-align: center;
-    font-family: 'Philosopher', '3B';
+    font-family: 'Philosopher', 'B3';
     font-style: italic;
 }
 
@@ -403,14 +492,14 @@ Variables
 }
 
 .collection-subtitle {
-    font-family: 'Philosopher', '3B';
+    font-family: 'Philosopher', 'B3';
     font-size: 14px;
     font-style: italic;
     color: var(--color-neutral-1);
 }
 
 .collection-title {
-    font-family: 'MuseoModerno', '3B';
+    font-family: 'MuseoModerno', 'B3';
     font-size: 32px;
     color: var(--color-brown-3);
     margin-bottom: 12px;
@@ -533,7 +622,7 @@ Variables
     font-size: 36px;
     color: var(--color-white);
     margin: 0;
-    font-family: 'MuseoModerno', '3B';
+    font-family: 'MuseoModerno', 'B3';
 }
 
 .new-products-section .view-all {
@@ -562,6 +651,16 @@ Variables
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.new-products-section .product-item {
+    display: none;
+    /* ẩn tất cả */
+}
+
+.new-products-section .product-item:nth-child(-n+4) {
+    display: block;
+    /* chỉ hiển thị 4 sản phẩm đầu */
+}
+
 .new-products-section .product-item img {
     width: 100%;
     aspect-ratio: 3 / 4;
@@ -577,6 +676,13 @@ Variables
     font-size: 16px;
     color: var(--color-white);
     margin: 14px 0 6px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
 }
 
 .new-products-section .product-price {
@@ -675,7 +781,7 @@ Variables
 
 .section-container .section-title {
     font-size: 36px;
-    font-family: 'MuseoModerno', '3B';
+    font-family: 'MuseoModerno', 'B3';
     color: var(--color-brown-1);
     margin-bottom: 16px;
     text-transform: uppercase;
@@ -867,7 +973,7 @@ Variables
 
 .customer-feedback .section-header .section-title {
     font-size: 36px;
-    font-family: 'MuseoModerno', '3B';
+    font-family: 'MuseoModerno', 'B3';
     color: var(--color-neutral-2);
     margin-bottom: 8px;
     text-transform: uppercase;
@@ -1086,3 +1192,309 @@ Variables
 @media (max-width: 767px) {}
 
 @media (max-width: 575px) {}
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    -webkit-text-fill-color: var(--color-neutral-0) !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+
+
+
+
+
+
+
+
+
+.product-section {
+    background-color: var(--color-neutral-3);
+    color: var(--color-black);
+    padding: 56px 0;
+}
+
+.product-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-category {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.sort-price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sort-price .sort-btn {
+    color: var(--color-neutral-2);
+    font-size: 18px;
+}
+
+.filter-category .category-btn {
+    cursor: pointer;
+}
+
+.filter-category .category-btn.active {
+    color: var(--color-brown-1);
+    text-decoration: underline;
+}
+
+.product-section .product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 item mỗi hàng */
+    gap: 16px;
+    margin-top: 56px;
+}
+
+.product-section .product-item {}
+
+.product-section .product-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+
+.product-section .product-item h4 {
+    margin-top: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    font-weight: lighter;
+}
+
+.product-section .product-item p {
+    margin-top: 6px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+
+
+@media (max-width: 1240px) {}
+
+@media (max-width: 1023px) {}
+
+@media (max-width: 991px) {
+    .product-section .product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .product-controls {
+        flex-direction: column;
+    }
+
+    .sort-price {
+        margin-top: 12px;
+    }
+
+    .filter-category {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 575px) {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.productDetail-page {
+    padding-top: 64px;
+    background-color: var(--color-neutral-3);
+}
+
+.productDetail-page .product-detail-grid {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.productDetail-page .product-images {
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 16px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.productDetail-page .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.productDetail-page .thumbnail-images {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    max-height: calc((1200px / 2) - 40px + 36px);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.productDetail-page .thumbnail-images::-webkit-scrollbar {
+    display: none;
+}
+
+.productDetail-page .thumbnail-images img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* height: 60px; */
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid var(--color-neutral-2);
+    border-radius: 4px;
+}
+
+.productDetail-page .thumbnail-images img.active {
+    border-color: #007bff;
+}
+
+.productDetail-page .product-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.productDetail-page .product-name {
+    font-family: 'MuseoModerno', 'B3';
+    font-size: 32px;
+    text-align: justify;
+    line-height: 32px;
+    color: var(--color-brown-1);
+}
+
+.product-detail-container .product-price {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.price-quantity-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 24px 0;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    background-color: #D9D9D9;
+    padding: 8px;
+    border-radius: 24px;
+}
+
+.quantity-selector button {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-neutral-3);
+    border-radius: 16px;
+    color: #6C6C6C;
+    font-size: 24px;
+}
+
+.quantity-selector input {
+    width: fit-content;
+    text-align: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 24px;
+    color: var(--color-black);
+    font-family: 'Philosopher', 'B3';
+    width: 64px;
+}
+
+.quantity-selector input[type=number]::-webkit-outer-spin-button,
+.quantity-selector input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-selector input[type=number] {
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+.btn-add-cart {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 26px;
+    background-color: transparent;
+    color: var(--color-neutral-2);
+    border: 2px solid var(--color-neutral-2);
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.product-extra-info {
+    margin-bottom: 56px;
+}
+
+.extra-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.extra-info-item h4 {
+    text-transform: uppercase;
+    font-size: 28px;
+    color: var(--color-black);
+}
+
+.extra-info-item p {
+    margin-top: 12px;
+    color: var(--color-black);
+    font-size: 18px;
+    font-weight: lighter;
+    text-align: justify;
+    white-space: pre-line;
+}
+
+/* Responsive: màn hình nhỏ hiển thị 1 cột */
+@media (max-width: 768px) {
+    .extra-info-grid {
+        grid-template-columns: 1fr;
+    }
+}

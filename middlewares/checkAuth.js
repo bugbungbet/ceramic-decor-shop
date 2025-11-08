@@ -71,7 +71,6 @@ const { asyncHandler } = require('../utils/index');
 // };
 
 const redirectIfAuthenticated = (req, res, next) => {
-    console.log(req.user);
     if (req.user) return res.redirect('/');
     next();
 };
@@ -94,16 +93,14 @@ const attachUserIfLoggedIn = asyncHandler(async (req, res, next) => {
     if (token) {
         try {
             decoded = verifyAccessToken(token);
-
         } catch (err) {
-            // Token hết hạn
+            decoded = null;
         }
     }
 
     if (!decoded && refreshToken) {
         try {
             const decodedRefresh = verifyRefreshToken(refreshToken);
-
             const tokenInDB = await RefreshToken.findOne({
                 token: refreshToken,
                 userId: decodedRefresh.user_id,
@@ -253,7 +250,7 @@ const authAdmin = asyncHandler(async (req, res, next) => {
             const user = await User.findById(decodedRefresh.user_id)
                 .select('_id fullName avatar_url email role status').lean();
 
-            if (!user || user.status == 0 || user.role !== 'admin') {
+            if (!user || user.status == 0 || user.role !== 0) {
                 return res.redirect('/403');
             }
 
@@ -280,7 +277,7 @@ const authAdmin = asyncHandler(async (req, res, next) => {
     const user = await User.findById(decoded.user_id)
         .select('_id fullName avatar_url email role status').lean();
 
-    if (!user || user.status == 0 || user.role !== 'admin') {
+    if (!user || user.status == 0 || user.role !== 0) {
         return res.redirect('/403');
     }
     req.user = user;

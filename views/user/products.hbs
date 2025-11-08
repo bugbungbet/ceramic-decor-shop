@@ -1,0 +1,290 @@
+{{#> _wrappers/user-wrapper}}
+
+<div class="products-page home-page">
+
+    {{> _user/header-products}}
+
+    <section class="banner">
+        <img src="./images/banner-products.png" alt="Banner gốm sứ" class="banner-bg">
+        <div class="banner-content">
+            <div class="container">
+                <form action="/products" method="GET" class="banner-search">
+                    <div class="search-box">
+                        <span class="search-icon"><i class="bi bi-search"></i></span>
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." />
+                        <button type="submit" class="search-btn"><i class="bi bi-send"></i></button>
+                    </div>
+                </form>
+                <h1>BranDecO</h1>
+                <p>Từ sự kết hợp giữa thẩm mỹ hiện đại và vẻ đẹp tự nhiên, BranDeco không chỉ tạo ra đồ gốm – chúng tôi
+                    gìn
+                    giữ
+                    cảm xúc, hơi thở và câu chuyện của đất. <br> Mỗi đường cong, mỗi lớp men đều mang dấu ấn của bàn tay
+                    và
+                    thời
+                    gian.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-section">
+        <div class="container">
+            <div class="product-controls">
+                <!-- Filter danh mục -->
+                <div class="filter-category">
+                    <span class="category-btn active" data-category="all">Tất cả</span>
+
+                    {{!-- <span class="category-btn" data-category="category1">Danh mục 1</span>
+                    <span class="category-btn" data-category="category2">Danh mục 2</span> --}}
+                    {{#each allCategories}}
+                    <span class="category-btn" data-category="{{this._id}}">{{this.name}}</span>
+                    {{/each}}
+                </div>
+
+
+                <!-- Sắp xếp giá -->
+                <div class="sort-price">
+                    <label>Giá:</label>
+                    <button class="sort-btn" data-sort="asc"><i class="bi bi-arrow-up-circle"></i></button>
+                    <button class="sort-btn" data-sort="desc"><i class="bi bi-arrow-down-circle"></i></button>
+                </div>
+            </div>
+
+            <!-- Danh sách sản phẩm -->
+            <div class="product-list">
+                {{#each allProducts}}
+                <a href="#" class="product-item">
+                    <img src="{{this.images.[0]}}" alt="{{this.name}}">
+                    <h4 class="product-name">{{this.name}}</h4>
+                    <p class="product-price">{{formatCurrency this.price}}</p>
+                </a>
+                {{/each}}
+                {{!-- <a class="product-item">
+                    <img src="/images/test_1.png" alt="Sản phẩm 1">
+                    <h4 class="product-name">Tên sản phẩm 1</h4>
+                    <p class="product-price">₫100,000</p>
+                </a> --}}
+
+                <!-- Thêm item khác -->
+            </div>
+        </div>
+    </section>
+
+
+    <section class="new-products-section">
+        <div class="container">
+            <!-- Header -->
+            <div class="section-header">
+                <h2 class="section-title">Sản phẩm mới</h2>
+                <a href="/products" class="view-all">
+                    Xem tất cả <i class="bi bi-chevron-right"></i></i>
+                </a>
+            </div>
+
+            <!-- Product list -->
+            {{!-- <div class="product-list">
+                <a href="/products/1" class="product-item">
+                    <img src="./images/test_1.png" alt="Product 1">
+                    <h4 class="product-name">Bình gốm sứ thủ công</h4>
+                    <p class="product-price">450.000₫</p>
+                </a>
+
+                <a href="/products/2" class="product-item">
+                    <img src="./images/test_1.png" alt="Product 2">
+                    <h4 class="product-name">Ly gốm trang trí</h4>
+                    <p class="product-price">320.000₫</p>
+                </a>
+
+                <a href="/products/3" class="product-item">
+                    <img src="./images/test_1.png" alt="Product 3">
+                    <h4 class="product-name">Chén sứ trắng</h4>
+                    <p class="product-price">180.000₫</p>
+                </a>
+
+                <a href="/products/4" class="product-item">
+                    <img src="./images/test_1.png" alt="Product 4">
+                    <h4 class="product-name">Lọ hoa gốm nâu</h4>
+                    <p class="product-price">520.000₫</p>
+                </a>
+            </div> --}}
+            <div class="product-list" data-start="0">
+                {{#each newProducts}}
+                <a href="/products/{{this._id}}" class="product-item" data-index="{{@index}}">
+                    <img src="{{this.images.[0]}}" alt="{{this.name}}">
+                    <h4 class="product-name">{{this.name}}</h4>
+                    <p class="product-price">{{formatCurrency this.price}}</p>
+                </a>
+                {{/each}}
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="product-nav">
+                <button class="btn-nav prev"><i class="bi bi-arrow-left"></i></i></button>
+                <button class="btn-nav next"><i class="bi bi-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-collection">
+        <div class="container">
+            <h2 class="section-title">Bộ Sưu Tập Gốm Nổi Bật</h2>
+            <p class="section-subtitle">
+                Mỗi dòng gốm là một hành trình từ đất mẹ đến không gian sống của bạn.
+                Bàn tay người nghệ nhân thổi hồn vào từng hình khối, từng lớp men,
+                tạo nên những bộ sưu tập từ mộc mạc truyền thống đến thanh thoát hiện đại.
+            </p>
+        </div>
+
+        <div class="collection-list">
+            <!-- Item 1 -->
+            <div class="collection-item">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
+                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <p class="collection-desc">
+                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
+                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
+                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
+
+                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
+                            Đông.
+                        </p>
+                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                </div>
+            </div>
+
+            <div class="collection-item reverse">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
+                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <p class="collection-desc">
+                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
+                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
+                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
+
+                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
+                            Đông.
+                        </p>
+                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                </div>
+            </div>
+
+            <div class="collection-item">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
+                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <p class="collection-desc">
+                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
+                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
+                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
+
+                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
+                            Đông.
+                        </p>
+                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
+                                class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="customer-feedback">
+        <div class="container">
+            <!-- Title -->
+            <div class="section-header text-center">
+                <h3 class="section-title">Cảm nhận của khách hàng</h3>
+                <p class="section-subtitle">Mỗi sản phẩm Mộc Gốm không chỉ làm đẹp không gian, mà còn lưu giữ cảm xúc –
+                    được kể lại qua lời của những người yêu gốm.</p>
+            </div>
+
+            <!-- Feedback items -->
+            <div class="feedback-list">
+                <div class="feedback-item">
+                    <img src="./images/feedback-1.png" alt="Khách hàng 1">
+                    <h4 class="customer-name">Lan Phương, Hà Nội</h4>
+                    <p class="customer-comment">
+                        “Những sản phẩm của Mộc Gốm thật sự tinh tế — vừa giản dị vừa có hồn. Tôi cảm thấy căn phòng của
+                        mình trở nên ấm áp, gần gũi và mang hơi thở thiên nhiên hơn.”
+                    </p>
+                </div>
+
+                <div class="feedback-item">
+                    <img src="./images/feedback-2.png" alt="Khách hàng 2">
+                    <h4 class="customer-name">Ngọc Anh, TP. Hồ Chí Minh</h4>
+                    <p class="customer-comment">
+                        “Tôi thích cái cảm giác khi cầm trên tay một chiếc bình Mộc Gốm — nặng vừa đủ, bề mặt sần nhẹ,
+                        rất chân thật. Sản phẩm không chỉ để trang trí mà còn khiến tôi muốn sống chậm lại, ngắm nhìn
+                        từng chi tiết nhỏ.”
+                    </p>
+                </div>
+
+                <div class="feedback-item">
+                    <img src="./images/feedback-3.png" alt="Khách hàng 3">
+                    <h4 class="customer-name">Minh Quân, Đà Nẵng</h4>
+                    <p class="customer-comment">
+                        “Lần đầu tiên tôi mua đồ decor mà cảm thấy như đang mang về một tác phẩm nghệ thuật. Mỗi món gốm
+                        đều có cái ‘tính’ riêng – yên bình, trầm lắng và đầy cảm xúc.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{> _user/footer}}
+</div>
+<script type="module" src="/javascripts/user/products.module.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const items = document.querySelectorAll('.new-products-section .product-item');
+        const prevBtn = document.querySelector('.new-products-section .btn-nav.prev');
+        const nextBtn = document.querySelector('.new-products-section .btn-nav.next');
+        const perPage = 4;
+        const total = items.length;
+        let start = 0;
+
+        function updateView() {
+            items.forEach((item, index) => {
+                item.style.display = (index >= start && index < start + perPage) ? 'block' : 'none';
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            start -= perPage;
+            if (start < 0) start = Math.max(total - perPage, 0); // quay về cuối nếu start < 0
+            updateView();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            start += perPage;
+            if (start >= total) start = 0; // quay về đầu nếu vượt
+            updateView();
+        });
+
+        updateView(); // lần đầu hiển thị
+    });
+
+
+</script>
+
+{{/ _wrappers/user-wrapper}}

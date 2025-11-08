@@ -190,10 +190,6 @@ class Category {
     fillEditForm(category) {
         this.formEditCategory.querySelector('#editCategoryId').value = category._id;
         this.formEditCategory.querySelector('#editCategoryName').value = category.name;
-        if (category.parentId) {
-            this.formEditCategory.querySelector('#editCategoryParentId').value = category.parentId;
-        }
-        this.formEditCategory.querySelector('#editCategoryDesc').value = category.description || '';
     }
 
     async handleEdit(e) {

@@ -17,16 +17,15 @@ const CategorySchema = new mongoose.Schema({
         trim: true
     },
     // ==== Trạng thái danh mục ====
-    status: {
-        type: Number,
-        enum: [0, 1], // 0: Vô hiệu hóa | 1: Kích hoạt
-        default: 1
+    isActive: {
+        type: Boolean,
+        default: true,
+        index: true
     }
 
 }, {
     versionKey: false,   // tắt trường __v của mongoose
     timestamps: false
 });
-
 // Export model
 module.exports = mongoose.model('Category', CategorySchema, 'categories');

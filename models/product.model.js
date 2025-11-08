@@ -9,15 +9,10 @@ const ProductSchema = new mongoose.Schema({
         default: uuidv4,
         required: true
     },
-
     // ==== Thông tin cơ bản ====
     name: {
         type: String,
         required: true,
-        trim: true
-    },
-    description: {
-        type: String,
         trim: true
     },
     details: {        // thông tin chi tiết sản phẩm
@@ -28,21 +23,35 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    // ==== Tham chiếu tới danh mục/nhãn hiệu/chất liệu ====
-    category_id: {
+    displaySuggestion: { // gợi ý trưng bày
+        type: String,
+        trim: true
+    },
+    preservationGuide: { // hướng dẫn bảo quản
+        type: String,
+        trim: true
+    },
+    images: [{
+        type: String,   // URL ảnh (có thể là Cloudinary, local, S3...)
+        trim: true
+    }],
+    categoryId: {
         type: String,
         ref: 'Category',
         required: true
     },
-    // ==== Trạng thái sản phẩm ====
-    status: {
+    // ==== Giá bán ====
+    price: {
         type: Number,
-        enum: [0, 1], // 0: Vô hiệu hóa | 1: Kích hoạt
-        default: 1
-    }
+        required: true,
+        min: 0,
+        default: 0
+    },
+    // ==== Trạng thái sản phẩm ====
+    isActive: { type: Boolean, default: true },
 
 }, {
-    versionKey: false,   // tắt trường __v của mongoose
+    versionKey: false,
     timestamps: true     // tự động thêm createdAt & updatedAt
 });
 

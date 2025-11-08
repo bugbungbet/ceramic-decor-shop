@@ -1,0 +1,169 @@
+{{#> _wrappers/admin-wrapper}}
+
+<div class="productDetail-page">
+    <button class="btn-back d-flex align-items-center">
+        <i class="bi bi-arrow-left"></i>
+        <span>Sản phẩm</span>
+    </button>
+    <div class="page-header mt-1">
+        <h1 class="page-title ellipsis line-2">{{title}}</h1>
+        <button class="add-stockEntry-btn action-add-btn animate-slide-in-up">
+            <i class="bi bi-plus-circle"></i>
+            Thêm lô hàng
+        </button>
+    </div>
+
+    <div class="page-content">
+        <div class="section animate-slide-in-up mt-2">
+
+            <div class="product-info card shadow-sm p-3 mb-4">
+                <div class="d-flex gap-3 align-items-start">
+                    <img src="{{product.images.[0]}}" alt="{{product.name}}" class="product-image table-image">
+                    <div>
+                        <h4>{{product.name}}</h4>
+                        <p><strong>Giá bán:</strong> {{formatCurrency product.price}} </p>
+                        <p><strong>Danh mục:</strong> {{product.categoryId.name}}</p>
+                        {{!-- <p><strong>Mô tả:</strong> {{product.details}}</p> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section animate-slide-in-up mt-2">
+
+
+            {{!-- <div class="stock-entries card shadow-sm"> --}}
+                {{!-- <h5 class="mb-3">Danh sách lô hàng</h5> --}}
+
+                {{#if stockEntries.length}}
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Mã lô</th>
+                            <th>Giá nhập</th>
+                            <th>Số lượng</th>
+                            <th>Còn lại</th>
+                            <th>Ngày nhập</th>
+                            <th>Trạng thái</th>
+                            <th>Ghi chú</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each stockEntries}}
+                        <tr>
+                            <td>{{this.batchCode}}</td>
+                            <td>{{formatCurrency this.importPrice}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{this.remainingQuantity}}</td>
+                            <td>{{formatDate this.importDate}}</td>
+                            <td>
+
+                                {{!-- <div
+                                    class="custom-select {{status}} {{#if (or (eq status 'sold_out') (eq status 'discontinued'))}}disabled{{/if}}"
+                                    id="stockSelect_{{_id}}" data-value="{{status}}">
+                                    <button type="button" class="cs-trigger" aria-haspopup="listbox"
+                                        aria-expanded="false">
+                                        <span class="cs-label">
+                                            {{#if (eq status 'sold_out')}}Hết hàng
+                                            {{else if (eq status 'discontinued')}}Ngừng bán
+                                            {{else}}{{translateStockStatus status}}{{/if}}
+                                        </span>
+                                        <i class="bi bi-caret-down-fill cs-caret"></i>
+                                    </button>
+                                    <div class="cs-options" role="listbox" tabindex="-1" aria-hidden="true">
+                                        {{#if (eq status 'draft')}}
+                                        <div class="cs-option draft {{#if (eq status 'draft')}}active{{/if}}"
+                                            data-value="draft">Nháp</div>
+                                        <div class="cs-option" data-value="imported">Đã nhập kho</div>
+                                        <div class="cs-option" data-value="cancelled">Đã hủy/Tạm dừng</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{else if (eq status 'cancelled')}}
+                                        <div class="cs-option" data-value="imported">Đã nhập kho</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{else if (eq status 'imported')}}
+                                        <div class="cs-option" data-value="cancelled">Đã hủy/Tạm dừng</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{/if}}
+                                    </div>
+                                </div> --}}
+
+
+                                <div class="custom-select {{#if (or (eq status 'sold_out') (eq status 'discontinued'))}}disabled{{/if}}"
+                                    id="stockSelect_{{_id}}" data-value="{{status}}">
+                                    <button type="button" class="cs-trigger {{status}}" aria-haspopup="listbox"
+                                        aria-expanded="false">
+                                        <span class="cs-label">
+                                            {{#if (eq status 'sold_out')}}Hết hàng
+                                            {{else if (eq status 'discontinued')}}Ngừng bán
+                                            {{else}}{{translateStockStatus status}}{{/if}}
+                                        </span>
+                                        <i class="bi bi-caret-down-fill cs-caret"></i>
+                                    </button>
+                                    <div class="cs-options" role="listbox" tabindex="-1" aria-hidden="true">
+                                        {{#if (eq status 'draft')}}
+                                        <div class="cs-option {{#if (eq status 'draft')}}active{{/if}}"
+                                            data-value="draft">Nháp</div>
+                                        <div class="cs-option" data-value="imported">Đã nhập kho</div>
+                                        <div class="cs-option" data-value="cancelled">Đã hủy/Tạm dừng</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{else if (eq status 'cancelled')}}
+                                        <div class="cs-option" data-value="imported">Đã nhập kho</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{else if (eq status 'imported')}}
+                                        <div class="cs-option" data-value="cancelled">Đã hủy/Tạm dừng</div>
+                                        <div class="cs-option" data-value="discontinued">Ngừng bán</div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+
+
+
+                            </td>
+                            <td>{{this.note}}</td>
+                            <td class="fit center">
+                                <div class="action-group">
+                                    <button
+                                        class="action-btn edit-btn {{#unless (eq this.status 'draft')}}disabled{{/unless}}"
+                                        data-id="{{this._id}}" title="Sửa thông tin">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <div class="action-divider"></div>
+
+                                    <button
+                                        class="action-btn delete-btn {{#unless (eq this.status 'draft')}}disabled{{/unless}}"
+                                        data-id="{{this._id}}" title="Xoá lô hàng">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                {{else}}
+                <p class="text-muted" style="padding: 12px;">Chưa có lô hàng nào cho sản phẩm này.</p>
+                {{/if}}
+                {{!--
+            </div> --}}
+        </div>
+
+        {{> _admin/pagination pagination=pagination currentSortField=currentSortField
+        currentSortOrder=currentSortOrder}}
+
+
+
+
+        {{!-- {{> _admin/pagination pagination=pagination currentSortField=currentSortField
+        currentSortOrder=currentSortOrder}} --}}
+    </div>
+
+    {{> _admin/stockEntries/add}}
+
+    {{> _admin/stockEntries/edit}}
+</div>
+
+<script type="module" src="/javascripts/admin/productDetail.module.js"></script>
+
+{{/ _wrappers/admin-wrapper}}

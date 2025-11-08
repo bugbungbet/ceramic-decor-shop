@@ -1,0 +1,61 @@
+<header class="header">
+  <div class="header-wrapper">
+    <div class="container">
+      <div class="header-left">
+        <a href="/" class="logo">BranDecO</a>
+      </div>
+
+      <nav class="header-center">
+        <ul class="menu">
+          <li><a href="/">Trang chủ</a></li>
+          <li><a href="/products">Sản phẩm</a></li>
+          <li><a href="/cart">Giỏ hàng</a></li>
+          <li><a href="/about">Về chúng tôi</a></li>
+          <li><a href="/contact">Liên hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        {{#if user}}
+        <div class="user-info">
+          {{#if user.avatarUrl}}
+          <img src="{{user.avatarUrl}}" alt="{{user.fullName}}" class="user-avatar">
+          {{else}}
+          <i class="bi bi-person-circle user-avatar-icon"></i>
+          {{/if}}
+          <span class="user-name">{{user.fullName}}</span>
+          <ul class="dropdown-menu">
+            <li><a href="/profile">Hồ sơ</a></li>
+            <li><a href="/orders">Đơn hàng</a></li>
+            {{#if (eq user.role 0)}}
+            <li><a href="/admin/dashboard">Quản trị</a></li>
+            {{/if}}
+            <li><a href="/logout">Đăng xuất</a></li>
+          </ul>
+        </div>
+        {{else}}
+        <a href="/login" class="btn btn-login">Đăng nhập</a>
+        <a href="/register" class="btn btn-register">Đăng ký</a>
+        {{/if}}
+        <div class="header-hamburger">
+          <i class="bi bi-list"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const headerHamburger = document.querySelector('.header-hamburger');
+    const header = document.querySelector('.header');
+
+    headerHamburger.addEventListener('click', () => {
+      if (header.classList.contains('show')) {
+        header.classList.remove('show')
+      } else {
+        header.classList.add('show')
+      }
+    })
+  })
+</script>

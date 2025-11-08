@@ -1,0 +1,71 @@
+<div id="modalAddProduct" class="modal-wrapper">
+    <div class="modal-overlay"></div>
+    <div class="modal-panel">
+        <div class="modal-header">
+            <h3>Thêm Sản phẩm</h3>
+            <button class="modal-close"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <hr>
+        <div class="modal-body">
+            <form id="formAddProduct">
+                <div class="form-group">
+                    <label for="addProductName">Tên sản phẩm <span class="error">*</span></label>
+                    <input type="text" id="addProductName" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="addProductPrice">Giá bán (VNĐ) <span class="error">*</span></label>
+                    <input type="number" id="addProductPrice" name="price" min="0" step="1000" required />
+                </div>
+                <div class="form-group">
+                    <label for="addProductCategory">Danh mục <span class="error">*</span></label>
+                    <select id="addProductCategory" name="categoryId" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        {{#each allCategories}}
+                        <option value="{{this._id}}">{{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="addProductImages">Ảnh sản phẩm <span class="error">*</span></label>
+                    <input type="file" id="addProductImages" name="images" multiple accept="image/*"
+                        data-preview="#previewAddProductImages" />
+                    <div id="previewAddProductImages" class="image-preview"></div>
+                </div>
+
+                <!-- Giới thiệu sản phẩm -->
+                <div class="form-group">
+                    <label for="addProductIntro">Giới thiệu</label>
+                    <textarea id="addProductIntro" name="introduction" rows="3"
+                        placeholder="Giới thiệu ngắn về sản phẩm..."></textarea>
+                </div>
+
+                <!-- Thông tin chi tiết -->
+                <div class="form-group">
+                    <label for="addProductDetails">Chi tiết sản phẩm</label>
+                    <textarea id="addProductDetails" name="details" rows="4"
+                        placeholder="Mô tả chi tiết, đặc điểm, thông số kỹ thuật..."></textarea>
+                </div>
+
+                <!-- Gợi ý trưng bày -->
+                <div class="form-group">
+                    <label for="addProductDisplaySuggestion">Gợi ý trưng bày</label>
+                    <textarea id="addProductDisplaySuggestion" name="displaySuggestion" rows="3"
+                        placeholder="Ví dụ: Kết hợp với bình gốm khác, đặt trong phòng khách, gần ánh sáng tự nhiên..."></textarea>
+                </div>
+
+                <!-- Hướng dẫn bảo quản -->
+                <div class="form-group">
+                    <label for="addProductPreservationGuide">Hướng dẫn bảo quản</label>
+                    <textarea id="addProductPreservationGuide" name="preservationGuide" rows="3"
+                        placeholder="Ví dụ: Tránh va đập mạnh, lau bằng khăn mềm, không ngâm trong nước..."></textarea>
+                </div>
+
+                <hr>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Thêm</button>
+                    <button type="button" class="btn-secondary modal-close">Huỷ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

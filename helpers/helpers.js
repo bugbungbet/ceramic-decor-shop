@@ -42,4 +42,34 @@ module.exports = {
   plusOne: (value) => {
     return parseInt(value) + 1;
   },
+  formatCurrency: (value) => {
+    if (isNaN(value)) return '0₫';
+    return Number(value).toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0
+    });
+  },
+
+  formatDate: (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  },
+
+  translateStockStatus: (status) => {
+    const map = {
+      draft: 'Nháp',
+      imported: 'Đã nhập kho',
+      cancelled: 'Đã hủy/Tạm dừng',
+      discontinued: 'Ngừng bán',
+      sold_out: 'Hết hàng'
+    };
+    return map[status] || 'Không xác định';
+  }
 };

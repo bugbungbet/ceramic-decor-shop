@@ -24,6 +24,14 @@
           <i class="bi bi-person-circle user-avatar-icon"></i>
           {{/if}}
           <span class="user-name">{{user.fullName}}</span>
+          <ul class="dropdown-menu">
+            <li><a href="/profile">Hồ sơ</a></li>
+            <li><a href="/orders">Đơn hàng</a></li>
+            {{#if (eq user.role 0)}}
+            <li><a href="/admin/dashboard">Quản trị</a></li>
+            {{/if}}
+            <li><a href="/logout">Đăng xuất</a></li>
+          </ul>
         </div>
         {{else}}
         <a href="/login" class="btn btn-login">Đăng nhập</a>

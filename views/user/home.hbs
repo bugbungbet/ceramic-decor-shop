@@ -2,7 +2,7 @@
 
 <div class="home-page">
 
-    {{> _user/header}}
+    {{> _user/header-home}}
 
     <section class="banner">
         <img src="./images/banner.png" alt="Banner gốm sứ" class="banner-bg">
@@ -119,7 +119,7 @@
             </div>
 
             <!-- Product list -->
-            <div class="product-list">
+            {{!-- <div class="product-list">
                 <a href="/products/1" class="product-item">
                     <img src="./images/test_1.png" alt="Product 1">
                     <h4 class="product-name">Bình gốm sứ thủ công</h4>
@@ -143,8 +143,16 @@
                     <h4 class="product-name">Lọ hoa gốm nâu</h4>
                     <p class="product-price">520.000₫</p>
                 </a>
+            </div> --}}
+            <div class="product-list" data-start="0">
+                {{#each newProducts}}
+                <a href="/products/{{this._id}}" class="product-item" data-index="{{@index}}">
+                    <img src="{{this.images.[0]}}" alt="{{this.name}}">
+                    <h4 class="product-name">{{this.name}}</h4>
+                    <p class="product-price">{{formatCurrency this.price}}</p>
+                </a>
+                {{/each}}
             </div>
-
 
             <!-- Navigation buttons -->
             <div class="product-nav">
@@ -277,4 +285,38 @@
 
     {{> _user/footer}}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.new-products-section .product-item');
+    const prevBtn = document.querySelector('.new-products-section .btn-nav.prev');
+    const nextBtn = document.querySelector('.new-products-section .btn-nav.next');
+    const perPage = 4;
+    const total = items.length;
+    let start = 0;
+
+    function updateView() {
+        items.forEach((item, index) => {
+            item.style.display = (index >= start && index < start + perPage) ? 'block' : 'none';
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        start -= perPage;
+        if (start < 0) start = Math.max(total - perPage, 0); // quay về cuối nếu start < 0
+        updateView();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        start += perPage;
+        if (start >= total) start = 0; // quay về đầu nếu vượt
+        updateView();
+    });
+
+    updateView(); // lần đầu hiển thị
+});
+
+
+</script>
+
 {{/ _wrappers/user-wrapper}}

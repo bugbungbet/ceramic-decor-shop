@@ -1,59 +1,168 @@
-export default class Select {
-    constructor(container) {
-        this.container = container;
-        this.type = container.dataset.type || "single";
-        this.input = container.querySelector(".select-input");
-        this.dropdown = container.querySelector(".select-dropdown");
-        this.items = container.querySelectorAll(".select-item");
-        this.selectedValues = [];
+// export default class Select {
+//     constructor(container) {
+//         this.container = container;
+//         this.type = container.dataset.type || "single";
+//         this.input = container.querySelector(".select-input");
+//         this.dropdown = container.querySelector(".select-dropdown");
+//         this.items = container.querySelectorAll(".select-item");
+//         this.selectedValues = [];
 
-        this.bindEvents();
+//         this.bindEvents();
+//     }
+
+//     bindEvents() {
+//         // Toggle dropdown khi click vào input
+//         this.input.addEventListener("click", (e) => {
+//             e.stopPropagation();
+//             this.toggleDropdown();
+//         });
+
+//         // Chọn item
+//         this.items.forEach((item) => {
+//             item.addEventListener("click", () => {
+//                 const value = item.dataset.value;
+//                 const text = item.textContent;
+
+//                 if (this.type === "single") {
+//                     this.selectedValues = [value];
+//                     this.input.value = text;
+//                     this.items.forEach((i) => i.classList.remove("selected"));
+//                     item.classList.add("selected");
+//                     this.hideDropdown();
+//                 } else {
+//                     // multi
+//                     if (this.selectedValues.includes(value)) {
+//                         this.selectedValues = this.selectedValues.filter((v) => v !== value);
+//                         item.classList.remove("selected");
+//                     } else {
+//                         this.selectedValues.push(value);
+//                         item.classList.add("selected");
+//                     }
+//                     this.input.value = this.selectedValues.join(", ");
+//                 }
+//             });
+//         });
+
+//         // Click ngoài thì đóng dropdown
+//         document.addEventListener("click", () => {
+//             this.hideDropdown();
+//         });
+//     }
+
+//     toggleDropdown() {
+//         this.dropdown.classList.toggle("show");
+//     }
+
+//     hideDropdown() {
+//         this.dropdown.classList.remove("show");
+//     }
+// }
+
+
+
+export default class Select {
+    constructor(element, options = {}) {
+        this.el = element;
+        if (!this.el) return;
+
+        this.options = {
+            onChange: options.onChange || (() => Promise.resolve(true))
+        };
+
+        this.trigger = this.el.querySelector('.cs-trigger');
+        this.label = this.el.querySelector('.cs-label');
+        this.optionsBox = this.el.querySelector('.cs-options');
+        this.optionEls = Array.from(this.el.querySelectorAll('.cs-option'));
+        this.value = this.el.dataset.value || null;
+
+        this.init();
     }
 
-    bindEvents() {
-        // Toggle dropdown khi click vào input
-        this.input.addEventListener("click", (e) => {
+    init() {
+        // Đặt option hiện tại
+        const activeOption = this.optionEls.find(opt => opt.dataset.value === this.value);
+        if (activeOption) this.setActiveOption(activeOption);
+
+        // Toggle mở/đóng
+        this.trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.toggleDropdown();
+
+            document.querySelectorAll('.custom-select.open').forEach(sel => {
+                if (sel !== this.el) sel.classList.remove('open');
+            });
+
+            this.toggleOptions();
         });
 
-        // Chọn item
-        this.items.forEach((item) => {
-            item.addEventListener("click", () => {
-                const value = item.dataset.value;
-                const text = item.textContent;
+        // Chọn option
+        this.optionEls.forEach(opt => {
+            opt.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const newVal = opt.dataset.value;
+                const oldVal = this.value;
+                if (newVal === oldVal) return this.closeOptions();
 
-                if (this.type === "single") {
-                    this.selectedValues = [value];
-                    this.input.value = text;
-                    this.items.forEach((i) => i.classList.remove("selected"));
-                    item.classList.add("selected");
-                    this.hideDropdown();
-                } else {
-                    // multi
-                    if (this.selectedValues.includes(value)) {
-                        this.selectedValues = this.selectedValues.filter((v) => v !== value);
-                        item.classList.remove("selected");
-                    } else {
-                        this.selectedValues.push(value);
-                        item.classList.add("selected");
-                    }
-                    this.input.value = this.selectedValues.join(", ");
-                }
+                const success = await this.options.onChange(newVal, oldVal);
+                if (success) this.setActiveOption(opt);
+                this.closeOptions();
             });
         });
 
-        // Click ngoài thì đóng dropdown
-        document.addEventListener("click", () => {
-            this.hideDropdown();
+        // Click ra ngoài đóng lại
+        document.addEventListener('click', (e) => {
+            if (!this.el.contains(e.target)) this.closeOptions();
         });
     }
 
-    toggleDropdown() {
-        this.dropdown.classList.toggle("show");
+    toggleOptions() {
+        const isOpen = this.el.classList.toggle('open');
+        this.optionsBox.setAttribute('aria-hidden', !isOpen);
+        this.trigger.setAttribute('aria-expanded', isOpen);
     }
 
-    hideDropdown() {
-        this.dropdown.classList.remove("show");
+    closeOptions() {
+        this.el.classList.remove('open');
+        this.optionsBox.setAttribute('aria-hidden', true);
+        this.trigger.setAttribute('aria-expanded', false);
+    }
+
+    setActiveOption(opt) {
+        this.optionEls.forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        this.value = opt.dataset.value;
+        this.el.dataset.value = this.value;
+        this.label.textContent = opt.textContent.trim();
+    }
+
+    getValue() {
+        return this.value;
+    }
+
+    setValue(value) {
+        const opt = this.optionEls.find(o => o.dataset.value === value);
+        if (opt) this.setActiveOption(opt);
+    }
+
+    setOptions(items) {
+        this.optionsBox.innerHTML = '';
+        this.optionEls = items.map(item => {
+            const div = document.createElement('div');
+            div.className = 'cs-option';
+            div.dataset.value = item.value;
+            div.textContent = item.label;
+            if (item.value === this.value) div.classList.add('active');
+            this.optionsBox.appendChild(div);
+            div.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const newVal = div.dataset.value;
+                const oldVal = this.value;
+                if (newVal === oldVal) return this.closeOptions();
+
+                const success = await this.options.onChange(newVal, oldVal);
+                if (success) this.setActiveOption(div);
+                this.closeOptions();
+            });
+            return div;
+        });
     }
 }

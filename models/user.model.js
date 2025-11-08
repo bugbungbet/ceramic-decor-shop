@@ -48,7 +48,6 @@ const UserSchema = new mongoose.Schema({
         enum: [0, 1], // 0: Vô hiệu hóa | 1: Kích hoạt
         default: 1
     }
-
 }, {
     versionKey: false,  // tắt trường __v của mongoose
     timestamps: true    // tự động thêm createdAt & updatedAt

@@ -12,21 +12,6 @@
                     <label for="addCategoryName">Tên danh mục <span class="error">*</span></label>
                     <input type="text" id="addCategoryName" name="name" required />
                 </div>
-
-                <div class="form-group">
-                    <label for="addCategoryParentId">Danh mục cha</label>
-                    <select name="parentId" id="addCategoryParentId">
-                        <option value="">-- Không có danh mục cha --</option>
-                        {{#each allCategories}}
-                        <option value="{{this._id}}">{{this.name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="addCategoryDesc">Mô tả</label>
-                    <textarea id="addCategoryDesc" name="description"></textarea>
-                </div>
                 <hr>
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">Thêm</button>

@@ -17,7 +17,10 @@ Variables
 
 }
 
-
+html,
+body {
+  font-family: 'Philosopher', sans-serif;
+}
 .auth-page {
     position: relative;
     width: 100%;

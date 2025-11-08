@@ -32,7 +32,7 @@ Variables
 
 html,
 body {
-  font-family: 'Philosopher', sans-serif;
+  /* font-family: 'Philosopher', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

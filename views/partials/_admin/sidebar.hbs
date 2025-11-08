@@ -1,91 +1,18 @@
-{{!-- <div class="admin-sidebar">
-    <h1 class="admin-logo">
-        <i class="bi bi-shop"></i>
-        Fashion Admin
-    </h1>
-
-    <nav class="admin-nav">
-        <ul>
-            <li>
-                <a href="/admin/dashboard" class="sidebar-item {{#if (eq activePage 'dashboard')}}active{{/if}}">
-                    <i class="bi bi-speedometer2"></i>
-                    Bảng điều khiển
-                </a>
-            </li>
-            <li>
-                <a href="/admin/products" class="">
-                    <i class="bi bi-bag"></i>
-                    Quản lý sản phẩm
-                </a>
-            </li>
-            <li>
-                <a href="/admin/categories">
-                    <i class="bi bi-tags"></i>
-                    Danh mục sản phẩm
-                </a>
-            </li>
-            <li>
-                <a href="/admin/brands">
-                    <i class="bi bi-star"></i>
-                    Thương hiệu
-                </a>
-            </li>
-            <li>
-                <a href="/admin/orders">
-                    <i class="bi bi-cart-check"></i>
-                    Đơn hàng
-                </a>
-            </li>
-            <li>
-                <a href="/admin/customers">
-                    <i class="bi bi-people"></i>
-                    Khách hàng
-                </a>
-            </li>
-            <li>
-                <a href="/admin/promotions">
-                    <i class="bi bi-percent"></i>
-                    Khuyến mãi
-                </a>
-            </li>
-            <li>
-                <a href="/admin/inventory">
-                    <i class="bi bi-box-seam"></i>
-                    Quản lý kho
-                </a>
-            </li>
-            <li>
-                <a href="/admin/settings">
-                    <i class="bi bi-gear"></i>
-                    Cài đặt
-                </a>
-            </li>
-        </ul>
-
-        <div class="logout-section">
-            <a href="#" id="logoutLink">
-                <i class="bi bi-box-arrow-right"></i>
-                Đăng xuất
-            </a>
-        </div>
-    </nav>
-</div> --}}
-
 <div class="admin-sidebar">
     <h1 class="admin-logo">
-        <i class="bi bi-shop"></i>
-        Fashion Admin
+        {{!-- <i class="bi bi-shop"></i> --}}
+        BranDecO - Admin
     </h1>
 
     <nav class="admin-nav">
         <ul>
             {{#each adminMenu}}
-                <li>
-                    <a href="{{this.path}}" class="sidebar-item {{#if (eq ../activePage this.key)}}active{{/if}}">
-                        <i class="bi {{this.icon}}"></i>
-                        {{this.label}}
-                    </a>
-                </li>
+            <li>
+                <a href="{{this.path}}" class="sidebar-item {{#if (eq ../activePage this.key)}}active{{/if}}">
+                    <i class="bi {{this.icon}}"></i>
+                    {{this.label}}
+                </a>
+            </li>
             {{/each}}
         </ul>
 
