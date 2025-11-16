@@ -41,7 +41,8 @@
 
 
                 <!-- Thêm vào giỏ hàng -->
-                <button id="addToCart" class="btn-add-cart"><i class="bi bi-cart"></i> Thêm vào giỏ hàng</button>
+                <button id="addToCart" data-id="{{product._id}}" data-price="{{product.price}}" class="btn-add-cart"><i
+                        class="bi bi-cart"></i> Thêm vào giỏ hàng</button>
             </div>
         </div>
         <!-- Thông tin chi tiết sản phẩm -->
@@ -70,11 +71,103 @@
             </div>
         </div>
     </div>
+    <hr style="margin: 56px 0;">
+    <div class="container">
+        <div class="product-reviews">
+            <div class="reviews-header">
+                <div class="left">
+                    <h2 class="mb-1">ĐÁNH GIÁ SẢN PHẨM</h2>
+                    <p class="text-muted">Đã bán {{product.soldCount}} sản phẩm</p>
+                </div>
+                <div class="right">
+                    {{#if totalReviews}}
+                    <div class="rating-average">
+                        <div class="average-number">{{averageRating}}</div>
+                        <div class="rating-group">
+                            <div class="rating-stars">
+                                {{#each (range 1 5)}}
+                                <i class="bi {{#if (lte this ../averageRating)}}bi-star-fill{{else}}bi-star{{/if}}"></i>
+                                {{/each}}
+                            </div>
+                            <div class="total-reviews">
+                                Đánh giá bởi ({{totalReviews}} người)
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="no-reviews">
+                        Chưa có đánh giá nào
+                    </div>
+                    {{/if}}
+                </div>
 
+
+
+            </div>
+
+            {{#if reviews.length}}
+            <div class="reviews-grid">
+                {{#each reviews}}
+                <div class="review-card">
+                    {{!-- <div class="review-header">
+                        <img src="{{this.userId.avatarUrl}}" alt="{{this.userId.fullName}}" class="review-avatar">
+                        <div>
+                            <strong>{{this.userId.fullName}}</strong>
+                            <div class="rating-stars">
+                                {{#each (range 1 5)}}
+                                <i class="bi {{#if (lte this ../rating)}}bi-star-fill{{else}}bi-star{{/if}}"></i>
+                                {{/each}}
+                            </div>
+                            <small class="text-muted">{{formatDate this.createdAt}}</small>
+                        </div>
+                    </div> --}}
+
+                    <div class="review-header">
+                        <div class="review-user-info">
+                            <img src="{{this.userId.avatarUrl}}" alt="{{this.userId.fullName}}" class="review-avatar">
+                            <div class="user-details">
+                                <strong>{{this.userId.fullName}}</strong>
+                                <div class="rating-stars">
+                                    {{#each (range 1 5)}}
+                                    <i class="bi {{#if (lte this ../rating)}}bi-star-fill{{else}}bi-star{{/if}}"></i>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-date">
+                            <p>Ngày đăng</p>
+                            <small>{{formatDate this.createdAt}}</small>
+                        </div>
+                    </div>
+
+                    <hr style="margin: 16px 0;border-color: #EEEDE5;">
+
+                    <div class="review-body">
+
+                        {{#if this.images.length}}
+                        <div class="review-images">
+                            {{#each this.images}}
+                            <img src="{{this}}" class="review-image" alt="review image">
+                            {{/each}}
+                        </div>
+                        {{/if}}
+                        <p class="comment">{{this.comment}}</p>
+
+                    </div>
+                </div>
+                {{/each}}
+
+            </div>
+            {{else}}
+            <p class="text-center text-muted">Chưa có đánh giá nào cho sản phẩm này.</p>
+            {{/if}}
+
+        </div>
+    </div>
     {{> _user/footer}}
 </div>
-{{!--
-<script type="module" src="/javascripts/user/products.module.js"></script> --}}
+
+<script type="module" src="/javascripts/user/productDetail.module.js"></script>
 <script>
     document.getElementById('btnBack').addEventListener('click', () => {
         if (document.referrer) {

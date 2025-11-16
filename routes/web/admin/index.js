@@ -5,10 +5,11 @@ const { setActivePage } = require("../../../utils/index");
 const { authAdmin } = require('../../../middlewares/checkAuth');
 
 router.use(setActivePage);
-
-router.use('/dashboard', authAdmin, require('./dashboard'));
-router.use('/products', authAdmin, require('./products'));
-router.use('/categories', authAdmin, require('./categories'));
-router.use('/stock-entries', authAdmin, require('./stockEntries'));
+router.use(authAdmin);
+router.use('/dashboard', require('./dashboard'));
+router.use('/products', require('./products'));
+router.use('/categories', require('./categories'));
+router.use('/stock-entries', require('./stockEntries'));
+router.use('/orders', require('./orders'));
 
 module.exports = router;

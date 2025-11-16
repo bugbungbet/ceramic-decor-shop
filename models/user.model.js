@@ -32,10 +32,11 @@ const UserSchema = new mongoose.Schema({
     avatarUrl: { type: String }, // link ảnh đại diện
 
     // ==== Thông tin liên hệ (chỉ hiển thị, không dùng để đăng nhập) ====
-    phoneNumber: {
-        type: String,
-        match: [/^\+84\d{9}$/, 'Số điện thoại không hợp lệ (định dạng +84xxxxxxxxx)']
-    },
+    phoneNumber: { type: String },
+    address: { type: String, trim: true },
+    provinceId: { type: String },
+    districtId: { type: String },
+    wardCode: { type: String },
 
     // ==== Quyền & trạng thái tài khoản ====
     role: {

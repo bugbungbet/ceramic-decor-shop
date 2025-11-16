@@ -10,7 +10,7 @@
           <li><a href="/">Trang chủ</a></li>
           <li><a href="/products">Sản phẩm</a></li>
           <li><a href="/cart">Giỏ hàng</a></li>
-          <li><a href="/about">Về chúng tôi</a></li>
+          <li><a href="/#about">Về chúng tôi</a></li>
           <li><a href="/contact">Liên hệ</a></li>
         </ul>
       </nav>
@@ -30,7 +30,7 @@
             {{#if (eq user.role 0)}}
             <li><a href="/admin/dashboard">Quản trị</a></li>
             {{/if}}
-            <li><a href="/logout">Đăng xuất</a></li>
+            <li><a class="logout">Đăng xuất</a></li>
           </ul>
         </div>
         {{else}}

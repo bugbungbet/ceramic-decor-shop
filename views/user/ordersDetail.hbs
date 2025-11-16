@@ -1,0 +1,183 @@
+{{#> _wrappers/user-wrapper}}
+
+<div class="order-detail-page">
+
+    {{> _user/header-products}}
+
+    <div class="container order-detail-container">
+        <div class="back-button">
+            <a href="javascript:void(0);" id="btnBack">
+                <i class="bi bi-arrow-left"></i> Đơn hàng
+            </a>
+            <span class="separator">•</span>
+            <span>Chi tiết đơn hàng</span>
+        </div>
+    </div>
+
+    <div class="order-detail-page container">
+
+        <div class="order-detail-content">
+            <!-- ====== CỘT TRÁI ====== -->
+            <div class="order-left">
+                <!-- HEADER -->
+                <div class="order-header">
+                    <h3>Thông tin đơn hàng</h3>
+                    <span class="order-code">Mã đơn: <strong>{{order.orderCode}}</strong></span>
+                </div>
+                <!-- SECTION 1: THÔNG TIN NHẬN HÀNG -->
+                <section class="order-section payment-address">
+                    <div class="payment-address-header">
+                        <h4>Thông tin nhận hàng</h4>
+                    </div>
+
+                    <!-- Nhóm tên -->
+                    <div class="info-row">
+                        <div class="info-left">
+                            <i class="bi bi-person-fill"></i>
+                            <span class="info-label">Tên:</span>
+                        </div>
+                        <div class="info-right">{{user.fullName}}</div>
+                    </div>
+
+                    <!-- Nhóm điện thoại -->
+                    <div class="info-row">
+                        <div class="info-left">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span class="info-label">SĐT:</span>
+                        </div>
+                        <div class="info-right">{{user.phoneNumber}}</div>
+                    </div>
+
+                    <!-- Nhóm địa chỉ -->
+                    <div class="info-row">
+                        <div class="info-left">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span class="info-label">Địa chỉ:</span>
+                        </div>
+                        <div class="info-right">{{fullAddress}}</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2: DANH SÁCH SẢN PHẨM -->
+                <section class="order-section">
+                    <h4>Sản phẩm</h4>
+
+                    <table class="table-payment">
+                        <thead>
+                            <tr>
+                                <th style="text-align: start;">Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each items}}
+                            <tr>
+                                <td class="product-info">
+                                    <img src="{{this.image}}" alt="{{this.name}}" class="product-img">
+                                    <div class="product-name-category">
+                                        <span class="product-name">{{this.name}}</span>
+                                        <span class="product-category">{{this.category}}</span>
+                                    </div>
+                                </td>
+                                <td class="center">{{formatCurrency this.price}}</td>
+                                <td class="center">{{this.quantity}}</td>
+                                <td class="center">{{formatCurrency this.total}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- SECTION 3: CHI TIẾT THANH TOÁN -->
+                <section class="order-section payment-summary">
+                    <h4>Chi tiết thanh toán</h4>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Tổng sản phẩm:</span>
+                        <span class="summary-value">{{items.length}}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Tạm tính:</span>
+                        <span class="summary-value">{{formatCurrency totalAmount}}</span>
+                    </div>
+
+                    <hr style="margin-top: 12px;">
+
+                    <div class="summary-row summary-total">
+                        <span class="summary-label">Tổng thanh toán:</span>
+                        <span class="summary-value total-price">{{formatCurrency totalAmount}}</span>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ===================== Order right column ===================== -->
+            <div class="order-right">
+                <section class="order-status-panel">
+                    <h3 class="panel-title">Trạng thái đơn hàng</h3>
+
+                    <div class="status-rows">
+
+                        <!-- Payment status -->
+                        <div class="status-row">
+                            <div class="status-label">Trạng thái thanh toán</div>
+                            <div class="status-content">
+                                <span class="status-badge payment-{{order.paymentStatus}}">
+                                    {{#if (eq order.paymentStatus "unpaid")}}Chưa thanh toán{{/if}}
+                                    {{#if (eq order.paymentStatus "paid")}}Đã thanh toán{{/if}}
+                                    {{#if (eq order.paymentStatus "refunded")}}Đã hoàn tiền{{/if}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Order status -->
+                        <div class="status-row">
+                            <div class="status-label">Trạng thái đơn</div>
+                            <div class="status-content">
+                                <span class="status-badge status-{{order.status}}">
+                                    {{formatOrderStatus order.status}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Order time -->
+                        <div class="status-row">
+                            <div class="status-label">Thời gian đặt</div>
+                            <div class="status-content">
+                                {{formatDate order.createdAt "HH:mm DD/MM/YYYY"}}
+                            </div>
+                        </div>
+
+                        <!-- Note (nếu có) -->
+                        {{#if order.note}}
+                        <div class="status-row">
+                            <div class="status-label">Ghi chú</div>
+                            <div class="status-content">
+                                <div class="order-note">{{order.note}}</div>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{{> _user/footer}}
+<script>
+    document.getElementById('btnBack').addEventListener('click', () => {
+        if (document.referrer) {
+            // Nếu có trang trước đó, quay lại
+            window.history.back();
+        } else {
+            // Nếu không có trang trước đó (vào trực tiếp), chuyển về /products
+            window.location.href = '/products';
+        }
+    });
+</script>
+{{/ _wrappers/user-wrapper}}

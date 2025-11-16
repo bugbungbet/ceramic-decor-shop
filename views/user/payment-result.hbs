@@ -1,0 +1,116 @@
+{{#> _wrappers/user-wrapper}}
+
+<div class="payment-result-page">
+
+    {{> _user/header-products}}
+
+    {{!-- <div class="container payment-result-container">
+        {{#if success}}
+        <div class="result-header success">
+            <i class="bi bi-check-circle-fill result-icon"></i>
+            <h2>{{message}}</h2>
+        </div>
+
+        <div class="result-details">
+            <div class="result-card">
+                <h5>Thông tin đơn hàng</h5>
+
+                <p><strong>Mã đơn hàng:</strong> {{order.orderCode}}</p>
+
+
+                <p>
+                    <strong>Trạng thái đơn hàng:</strong>
+                    <span class="badge badge-primary">Chờ xác nhận</span>
+                </p>
+
+                <hr style="width: 100%;">
+
+                <div class="result-actions">
+                    <a href="/orders/{{order._id}}" class="btn btn-outline">
+                        Xem chi tiết đơn hàng
+                    </a>
+
+                    <a href="/products" class="btn btn-primary">
+                        Tiếp tục mua sắm
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{else}}
+        <div class="result-header failed">
+            <i class="bi bi-x-circle-fill result-icon"></i>
+            <h2>Thanh toán thất bại</h2>
+            <p>{{message}}</p>
+
+            <div class="result-actions center">
+                <a href="/cart" class="btn btn-warning">Quay lại giỏ hàng</a>
+                <a href="/products" class="btn btn-outline">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+        {{/if}}
+    </div> --}}
+
+    <div class="container payment-result-container">
+        {{#if success}}
+        <div class="result-header success">
+            <i class="bi bi-check-circle-fill result-icon"></i>
+            <h2>{{message}}</h2>
+        </div>
+
+        <div class="result-details">
+            <div class="result-card">
+                <h5>Thông tin đơn hàng</h5>
+
+                <p><strong>Mã đơn hàng:</strong> {{order.orderCode}}</p>
+
+                <p>
+                    <strong>Trạng thái đơn hàng:</strong>
+                    {{#if (eq order.status "pending")}}
+                    <span class="badge badge-pending">Chờ xác nhận</span>
+                    {{else if (eq order.status "confirmed")}}
+                    <span class="badge badge-confirmed">Đã xác nhận</span>
+                    {{else if (eq order.status "preparing")}}
+                    <span class="badge badge-preparing">Đang chuẩn bị</span>
+                    {{else if (eq order.status "shipping")}}
+                    <span class="badge badge-shipping">Đang giao</span>
+                    {{else if (eq order.status "delivered")}}
+                    <span class="badge badge-delivered">Đã giao</span>
+                    {{else if (eq order.status "cancelled")}}
+                    <span class="badge badge-cancelled">Đã hủy</span>
+                    {{else if (eq order.status "returned")}}
+                    <span class="badge badge-returned">Hàng trả về</span>
+                    {{/if}}
+                </p>
+
+                <hr>
+
+                <div class="result-actions">
+                    <a href="/orders/{{order._id}}" class="btn btn-outline">Xem chi tiết đơn hàng</a>
+                    <a href="/products" class="btn btn-primary">Tiếp tục mua sắm</a>
+                </div>
+            </div>
+        </div>
+
+        {{else}}
+        <div class="result-header failed">
+            <i class="bi bi-x-circle-fill result-icon"></i>
+            <h2>Thanh toán thất bại</h2>
+            <p>{{message}}</p>
+
+            <div class="result-actions center">
+                <a href="/cart" class="btn btn-warning">Quay lại giỏ hàng</a>
+                <a href="/products" class="btn btn-outline">Tiếp tục mua sắm</a>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+
+    {{> _user/footer}}
+</div>
+
+{{!--
+<script type="module" src="/javascripts/user/payment.module.js"></script> --}}
+
+{{/ _wrappers/user-wrapper}}

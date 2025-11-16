@@ -1,0 +1,31 @@
+{{#> _wrappers/user-wrapper}}
+
+<div class="cart-page">
+
+    {{> _user/header-products}}
+
+    <div class="container cart-container">
+        {{!-- <div class="cart-grid"> --}}
+            <!-- Bên trái: danh sách sản phẩm -->
+            <div class="cart-items" id="cartItems">
+
+            </div>
+
+            <!-- Bên phải: thông tin đơn hàng -->
+            <div class="cart-summary">
+                <h3>Thông tin đơn hàng</h3>
+                <p>Tổng sản phẩm: <span id="totalQuantity">{{totalQuantity}}</span></p>
+                <hr style="margin: 16px 0;">
+                <p>Tổng tiền thanh toán: <span id="totalPrice">{{formatCurrency totalPrice}}</span></p>
+                <button id="checkoutBtn">Đặt hàng</button>
+            </div>
+        {{!-- </div> --}}
+    </div>
+
+
+</div>
+    {{> _user/footer}}
+
+<script type="module" src="/javascripts/user/cart.module.js"></script>
+
+{{/ _wrappers/user-wrapper}}

@@ -7,6 +7,7 @@ module.exports = {
   gtBool: (a, b) => {
     return a > b;
   },
+  multiply: (a, b) => a * b,
   paginationPages: (totalPages, currentPage) => {
     const pages = [];
     const delta = 2;
@@ -71,5 +72,29 @@ module.exports = {
       sold_out: 'Hết hàng'
     };
     return map[status] || 'Không xác định';
+  },
+  formatOrderStatus: (status) => {
+    const map = {
+      pending: 'Chờ duyệt',
+      confirmed: 'Đã xác nhận',
+      preparing: 'Đang chuẩn bị',
+      shipping: 'Đang giao',
+      delivered: 'Hoàn tất',
+      cancelled: 'Đã hủy',
+      returned: 'Trả hàng'
+    };
+    return map[status] || status;
+  },
+range: (start, end) => {
+  const arr = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+},
+
+  lte: (a, b) => {
+    return a <= b;
+  },
+  formatDate: (date) => {
+    return new Date(date).toLocaleDateString('vi-VN');
   }
 };

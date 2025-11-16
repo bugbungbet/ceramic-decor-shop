@@ -9,9 +9,29 @@ class Product {
         this.cacheElements();
         this.bindEvents();
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasSearch = urlParams.has('q');
+        const queryCategory = urlParams.get('category');
+
         this.currentCategory = 'all';
         this.currentSort = null; // 'asc' | 'desc' | null
-        this.loadProducts(this.currentCategory, this.currentSort);
+
+        if (hasSearch) {
+            return;
+        }
+
+        // 2. Nếu có category trên URL → auto click đúng nút
+        if (queryCategory) {
+            const btn = document.querySelector(`.category-btn[data-category="${queryCategory}"]`);
+            if (btn) {
+                btn.click();
+                return; // dừng lại, không load mặc định
+            }
+        }
+
+        if (!hasSearch) {
+            this.loadProducts(this.currentCategory, this.currentSort);
+        }
     }
 
     cacheElements() {
@@ -70,7 +90,6 @@ class Product {
     }
 
     renderProducts(products) {
-        // Clear trước khi đổ dữ liệu
         this.productList.innerHTML = '';
 
         if (!products || products.length === 0) {
@@ -78,7 +97,6 @@ class Product {
             return;
         }
 
-        // Tạo HTML sản phẩm
         const html = products.map(p => `
             <a href="/products/${p._id}" class="product-item">
                 <img src="${p.images?.[0] || '/images/default.png'}" alt="${p.name}">

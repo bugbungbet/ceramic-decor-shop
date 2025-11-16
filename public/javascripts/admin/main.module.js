@@ -44,6 +44,19 @@ class Main {
                 if (this._confirmReject) this._confirmReject(false);
             });
         }
+
+        document.querySelector('.logout')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await fetch('/api/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                window.location.href = '/';
+            } catch (err) {
+                console.error('Logout error:', err);
+            }
+        });
     }
 
     showSessionToast() {

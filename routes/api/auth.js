@@ -10,9 +10,9 @@ const { validateLogin, validateRegister } = require('../../validators/auth.valid
 
 router.post('/login', validateLogin, asyncHandler(AuthController.login));
 router.post('/register', validateRegister, asyncHandler(AuthController.register));
-router.get('/verify', asyncHandler(AuthController.verifyEmail));
+// router.get('/verify', asyncHandler(AuthController.verifyEmail));
 router.post('/logout', asyncHandler(AuthController.logout));
-router.post('/resend-verification', asyncHandler(AuthController.resendVerification));
+// router.post('/resend-verification', asyncHandler(AuthController.resendVerification));
 
 
 

@@ -29,9 +29,9 @@ class AuthController {
             if (!user) return error(res, 401, 'Email hoặc mật khẩu không đúng.');
 
             // Kiểm tra verify email
-            if (user.status !== 1) {
-                return error(res, 403, 'Tài khoản chưa được xác nhận. Vui lòng kiểm tra email.');
-            }
+            // if (user.status !== 1) {
+            //     return error(res, 403, 'Tài khoản chưa được xác nhận. Vui lòng kiểm tra email.');
+            // }
 
             // So khớp mật khẩu
             const isMatch = await bcrypt.compare(password, user.password);
@@ -95,7 +95,7 @@ class AuthController {
                 fullName,
                 email,
                 password: hashedPassword,
-                status: 0, // chưa kích hoạt
+                status: 1, // chưa kích hoạt
                 role: 1
             });
 
@@ -110,34 +110,34 @@ class AuthController {
             });
 
             // === 6. Gửi email xác nhận ===
-            const verifyLink = `${process.env.APP_URL}api/verify?token=${token}`;
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST || 'smtp.gmail.com',
-                port: process.env.SMTP_PORT || 465,
-                secure: true,
-                auth: {
-                    user: process.env.SMTP_USER,
-                    pass: process.env.SMTP_PASS
-                }
-            });
+            // const verifyLink = `${process.env.APP_URL}api/verify?token=${token}`;
+            // const transporter = nodemailer.createTransport({
+            //     host: process.env.SMTP_HOST || 'smtp.gmail.com',
+            //     port: process.env.SMTP_PORT || 465,
+            //     secure: true,
+            //     auth: {
+            //         user: process.env.SMTP_USER,
+            //         pass: process.env.SMTP_PASS
+            //     }
+            // });
 
-            const mailOptions = {
-                from: `"App Support" <${process.env.SMTP_USER}>`,
-                to: email,
-                subject: 'Xác nhận tài khoản của bạn',
-                text: `Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.
-Vui lòng click vào link để xác nhận tài khoản: ${verifyLink}
-Nếu bạn không thực hiện đăng ký, hãy bỏ qua email này.`,
-                html: `<p>Xin chào <b>${fullName}</b>,</p>
-           <p>Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.</p>
-           <p>Để xác nhận tài khoản, vui lòng click vào link sau:</p>
-           <a href="${verifyLink}" target="_blank">${verifyLink}</a>
-           <p>Link sẽ hết hạn sau 15 phút.</p>
-           <p><b>Lưu ý:</b> Nếu bạn không thực hiện đăng ký, vui lòng <u>không click vào link</u> và bỏ qua email này.</p>`
-            };
+//             const mailOptions = {
+//                 from: `"App Support" <${process.env.SMTP_USER}>`,
+//                 to: email,
+//                 subject: 'Xác nhận tài khoản của bạn',
+//                 text: `Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.
+// Vui lòng click vào link để xác nhận tài khoản: ${verifyLink}
+// Nếu bạn không thực hiện đăng ký, hãy bỏ qua email này.`,
+//                 html: `<p>Xin chào <b>${fullName}</b>,</p>
+//            <p>Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.</p>
+//            <p>Để xác nhận tài khoản, vui lòng click vào link sau:</p>
+//            <a href="${verifyLink}" target="_blank">${verifyLink}</a>
+//            <p>Link sẽ hết hạn sau 15 phút.</p>
+//            <p><b>Lưu ý:</b> Nếu bạn không thực hiện đăng ký, vui lòng <u>không click vào link</u> và bỏ qua email này.</p>`
+//             };
 
 
-            await transporter.sendMail(mailOptions);
+            // await transporter.sendMail(mailOptions);
 
             // === 7. Phản hồi ===
             return success(
@@ -153,116 +153,116 @@ Nếu bạn không thực hiện đăng ký, hãy bỏ qua email này.`,
     }
 
     // [GET] /api/verify?token=abc123xyz
-    async verifyEmail(req, res) {
-        try {
-            const { token } = req.query;
+    // async verifyEmail(req, res) {
+    //     try {
+    //         const { token } = req.query;
 
-            // === 1. Kiểm tra token ===
-            if (!token) {
-                return error(res, 400, 'Liên kết xác nhận không hợp lệ. Vui lòng kiểm tra email của bạn.');
-            }
+    //         // === 1. Kiểm tra token ===
+    //         if (!token) {
+    //             return error(res, 400, 'Liên kết xác nhận không hợp lệ. Vui lòng kiểm tra email của bạn.');
+    //         }
 
-            // === 2. Tìm record theo token ===
-            const record = await EmailVerification.findOne({ token });
+    //         // === 2. Tìm record theo token ===
+    //         const record = await EmailVerification.findOne({ token });
 
-            if (!record) {
-                return error(res, 400, 'Liên kết xác nhận đã hết hạn hoặc không tồn tại. Vui lòng thử gửi lại email.');
-            }
+    //         if (!record) {
+    //             return error(res, 400, 'Liên kết xác nhận đã hết hạn hoặc không tồn tại. Vui lòng thử gửi lại email.');
+    //         }
 
-            if (record.verified) {
-                return error(res, 400, 'Tài khoản này đã được xác nhận trước đó. Bạn có thể đăng nhập ngay.');
-            }
+    //         if (record.verified) {
+    //             return error(res, 400, 'Tài khoản này đã được xác nhận trước đó. Bạn có thể đăng nhập ngay.');
+    //         }
 
-            if (record.expiresAt < new Date()) {
-                return error(res, 400, 'Liên kết xác nhận đã hết hạn. Vui lòng đăng ký lại để nhận link mới.');
-            }
+    //         if (record.expiresAt < new Date()) {
+    //             return error(res, 400, 'Liên kết xác nhận đã hết hạn. Vui lòng đăng ký lại để nhận link mới.');
+    //         }
 
-            // === 3. Kích hoạt tài khoản user ===
-            const user = await User.findById(record.userId);
-            if (!user) {
-                return error(res, 404, 'Tài khoản không tồn tại. Vui lòng đăng ký lại.');
-            }
+    //         // === 3. Kích hoạt tài khoản user ===
+    //         const user = await User.findById(record.userId);
+    //         if (!user) {
+    //             return error(res, 404, 'Tài khoản không tồn tại. Vui lòng đăng ký lại.');
+    //         }
 
-            user.status = 1; // kích hoạt
-            await user.save();
+    //         user.status = 1; // kích hoạt
+    //         await user.save();
 
-            // === 4. Đánh dấu token đã dùng ===
-            record.verified = true;
-            await record.save();
+    //         // === 4. Đánh dấu token đã dùng ===
+    //         record.verified = true;
+    //         await record.save();
 
-            return success(res, 200, 'Xác nhận email thành công! Bạn có thể đăng nhập.');
+    //         return success(res, 200, 'Xác nhận email thành công! Bạn có thể đăng nhập.');
 
-        } catch (err) {
-            console.error('Verify email error:', err);
-            return error(res, 500, 'Lỗi máy chủ. Vui lòng thử lại sau.', err.message);
-        }
-    }
+    //     } catch (err) {
+    //         console.error('Verify email error:', err);
+    //         return error(res, 500, 'Lỗi máy chủ. Vui lòng thử lại sau.', err.message);
+    //     }
+    // }
 
 
     // [POST] /api/resend-verification
-    async resendVerification(req, res) {
-        try {
-            const { email } = req.body;
-            if (!email) return error(res, 400, 'Email không được để trống.');
+    // async resendVerification(req, res) {
+    //     try {
+    //         const { email } = req.body;
+    //         if (!email) return error(res, 400, 'Email không được để trống.');
 
-            const user = await User.findOne({ email });
-            if (!user) return error(res, 404, 'Tài khoản không tồn tại.');
+    //         const user = await User.findOne({ email });
+    //         if (!user) return error(res, 404, 'Tài khoản không tồn tại.');
 
-            if (user.status === 1)
-                return success(res, 200, 'Tài khoản đã được xác nhận. Bạn có thể đăng nhập.');
+    //         if (user.status === 1)
+    //             return success(res, 200, 'Tài khoản đã được xác nhận. Bạn có thể đăng nhập.');
 
-            // Lấy token xác nhận mới nhất của user
-            const record = await EmailVerification.findOne({ userId: user._id }).sort({ createdAt: -1 });
+    //         // Lấy token xác nhận mới nhất của user
+    //         const record = await EmailVerification.findOne({ userId: user._id }).sort({ createdAt: -1 });
 
-            const now = new Date();
-            if (record && record.expiresAt > now) {
-                const remaining = Math.ceil((record.expiresAt - now) / 60000); // phút còn lại
-                return success(
-                    res,
-                    200,
-                    `Email xác nhận đã được gửi trước đó. Vui lòng kiểm tra lại hộp thư của bạn hoặc thử gửi lại sau ${remaining} phút.`
-                );
-            }
-
-
-            const token = crypto.randomBytes(16).toString('hex');
-            const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 phút
-
-            await EmailVerification.create({
-                userId: user._id,
-                email: user.email,
-                token,
-                expiresAt
-            });
-
-            // Gửi email
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST || 'smtp.gmail.com',
-                port: process.env.SMTP_PORT || 465,
-                secure: true,
-                auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-            });
-
-            const verifyLink = `${process.env.APP_URL}api/verify?token=${token}`;
-            await transporter.sendMail({
-                from: `"App Support" <${process.env.SMTP_USER}>`,
-                to: email,
-                subject: 'Xác nhận tài khoản của bạn',
-                html: `<p>Xin chào <b>${user.fullName}</b>,</p>
-           <p>Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.</p>
-           <p>Để xác nhận tài khoản, vui lòng click vào link sau:</p>
-           <a href="${verifyLink}" target="_blank">${verifyLink}</a>
-           <p>Link này sẽ hết hạn sau 15 phút.</p>
-           <p><b>Lưu ý:</b> Nếu bạn không thực hiện đăng ký, vui lòng <u>không click vào link</u> và bỏ qua email này.</p>`
-            });
+    //         const now = new Date();
+    //         if (record && record.expiresAt > now) {
+    //             const remaining = Math.ceil((record.expiresAt - now) / 60000); // phút còn lại
+    //             return success(
+    //                 res,
+    //                 200,
+    //                 `Email xác nhận đã được gửi trước đó. Vui lòng kiểm tra lại hộp thư của bạn hoặc thử gửi lại sau ${remaining} phút.`
+    //             );
+    //         }
 
 
-            return success(res, 201, 'Đã gửi lại email xác nhận. Vui lòng kiểm tra email.');
-        } catch (err) {
-            console.error(err);
-            return error(res, 500, 'Lỗi máy chủ. Vui lòng thử lại sau.', err.message);
-        }
-    }
+    //         const token = crypto.randomBytes(16).toString('hex');
+    //         const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 phút
+
+    //         await EmailVerification.create({
+    //             userId: user._id,
+    //             email: user.email,
+    //             token,
+    //             expiresAt
+    //         });
+
+    //         // Gửi email
+    //         const transporter = nodemailer.createTransport({
+    //             host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    //             port: process.env.SMTP_PORT || 465,
+    //             secure: true,
+    //             auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+    //         });
+
+    //         const verifyLink = `${process.env.APP_URL}api/verify?token=${token}`;
+    //         await transporter.sendMail({
+    //             from: `"App Support" <${process.env.SMTP_USER}>`,
+    //             to: email,
+    //             subject: 'Xác nhận tài khoản của bạn',
+    //             html: `<p>Xin chào <b>${user.fullName}</b>,</p>
+    //        <p>Bạn hoặc ai đó đã sử dụng email này để đăng ký tài khoản trên ứng dụng của chúng tôi.</p>
+    //        <p>Để xác nhận tài khoản, vui lòng click vào link sau:</p>
+    //        <a href="${verifyLink}" target="_blank">${verifyLink}</a>
+    //        <p>Link này sẽ hết hạn sau 15 phút.</p>
+    //        <p><b>Lưu ý:</b> Nếu bạn không thực hiện đăng ký, vui lòng <u>không click vào link</u> và bỏ qua email này.</p>`
+    //         });
+
+
+    //         return success(res, 201, 'Đã gửi lại email xác nhận. Vui lòng kiểm tra email.');
+    //     } catch (err) {
+    //         console.error(err);
+    //         return error(res, 500, 'Lỗi máy chủ. Vui lòng thử lại sau.', err.message);
+    //     }
+    // }
 
 
 

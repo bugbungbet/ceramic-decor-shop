@@ -112,7 +112,7 @@ const attachUserIfLoggedIn = asyncHandler(async (req, res, next) => {
             }
 
             const user = await User.findById(decodedRefresh.user_id)
-                .select('_id fullName avatar_url email role status').lean();
+                .select('_id fullName avatarUrl email role status').lean();
 
             if (!user || user.status == 0) {
                 return next(); // không gán user
@@ -141,7 +141,7 @@ const attachUserIfLoggedIn = asyncHandler(async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.user_id)
-        .select('_id fullName avatar_url email role status').lean();
+        .select('_id fullName avatarUrl email role status').lean();
 
     if (!user || user.status == 0) {
         return next();
@@ -179,7 +179,7 @@ const authUser = asyncHandler(async (req, res, next) => {
                 return res.redirect('/login');
             }
             const user = await User.findById(decodedRefresh.user_id)
-                .select('_id fullName avatar_url email role status').lean();
+                .select('_id fullName avatarUrl email role status').lean();
 
             if (!user || user.status == 0) {
                 return res.redirect('/403');
@@ -208,7 +208,7 @@ const authUser = asyncHandler(async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.user_id)
-        .select('_id fullName avatar_url email role status').lean();
+        .select('_id fullName avatarUrl email role status').lean();
     if (!user || user.status == 0) {
         return res.redirect('/403');
     }
@@ -248,7 +248,7 @@ const authAdmin = asyncHandler(async (req, res, next) => {
             }
 
             const user = await User.findById(decodedRefresh.user_id)
-                .select('_id fullName avatar_url email role status').lean();
+                .select('_id fullName avatarUrl email role status').lean();
 
             if (!user || user.status == 0 || user.role !== 0) {
                 return res.redirect('/403');
@@ -275,7 +275,7 @@ const authAdmin = asyncHandler(async (req, res, next) => {
     }
 
     const user = await User.findById(decoded.user_id)
-        .select('_id fullName avatar_url email role status').lean();
+        .select('_id fullName avatarUrl email role status').lean();
 
     if (!user || user.status == 0 || user.role !== 0) {
         return res.redirect('/403');

@@ -826,14 +826,56 @@ Common
 
 
 
+/* FILTER */
 
+.admin-layout .section-filter {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: var(--color-surface);
+}
+.admin-layout .section-filter .fillter-btn,
+.admin-layout .section-filter .filter-select {
+    padding: 12px;
+    cursor: pointer;
+    transition: .3s all linear;
+    background-color:  var(--color-surface);
+    font-family: 'B3';
+}
+.admin-layout .section-filter .filter-select {
+    border: none;
+    color: var(--color-white);
+    outline: none;
+}
+.admin-layout .section-filter .filter-select option{
+    border: none;
+}
+.admin-layout .section-filter .fillter-btn:hover {
+    background-color: var(--color-primary);
+}
 
+.admin-layout .filter-divider {
+    width: 1px;
+align-self: stretch;
+    background-color: var(--color-stroke-2);
+    display: block;
+}
 
+.admin-layout .section-filter .fillter-btn:first-child {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+.admin-layout .section-filter .fillter-btn:last-child {
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
 
-
-
-
-
+.admin-layout .section-filter .filter-search {
+    outline: none;
+    border: none;
+    color: var(--color-white);
+    font-family: 'B3';
+}
 
 
 
@@ -926,6 +968,10 @@ Common
     padding: 12px;
 }
 
+.productDetail-page .product-info p {
+    margin-top: 12px;
+}
+
 .productDetail-page .btn-back {
     color: var(--color-white);
 }
@@ -936,11 +982,34 @@ Common
 
 
 
+.orderDetail-page .order-info {
+    padding: 12px;
+}
 
+.orderDetail-page .order-info p {
+    margin-top: 12px;
+}
 
+.orderDetail-page .product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
+.orderDetail-page .product-info img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
 
+.orderDetail-page .btn-back {
+    color: var(--color-white);
+}
 
+.orderDetail-page .order-status p {
+    display: flex;
+    align-items: center;
+}
 
 
 
@@ -1066,3 +1135,195 @@ Common
 }
 
 /* màu xám cho hết hàng */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.orders-page .draft {
+    background-color: var(--color-accent-6);
+    /* color: #007bff; */
+}
+
+/* màu xanh cho draft */
+.cs-trigger.imported {
+    background-color: var(--color-accent-1);
+    /* color: #28a745; */
+}
+
+/* màu xanh lá cho nhập kho */
+.cs-trigger.cancelled {
+    background-color: var(--color-accent-3);
+    /* color: #dc3545; */
+}
+
+/* màu đỏ cho huỷ/tạm dừng */
+.cs-trigger.discontinued {
+    background-color: var(--color-disabled);
+    /* color: #6c757d; */
+}
+
+/* màu xám cho ngừng bán */
+.cs-trigger.sold_out {
+    background-color: var(--color-disabled);
+    /* color: #6c757d; */
+}
+
+/* màu xám cho hết hàng */
+
+
+
+
+.status-pending {
+    color: var(--color-accent-1);      /* chờ duyệt */
+}
+
+.status-confirmed {
+    color: var(--color-accent-2);      /* admin đã xác nhận */
+}
+
+.status-preparing {
+    color: var(--color-accent-4);      /* đang chuẩn bị / đóng gói */
+}
+
+.status-shipping {
+    color: var(--color-accent-6);      /* đang giao */
+}
+
+.status-delivered {
+    color: var(--color-accent-3);      /* đã giao / hoàn tất */
+}
+
+.status-cancelled {
+    color: var(--color-accent-5);      /* bị hủy */
+}
+
+.status-returned {
+    color: var(--color-accent-2);      /* hàng trả về */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.order-status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.status-card {
+    border-radius: 16px;
+    padding: 18px 20px;
+    background: var(--color-surface);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    transition: 0.25s ease;
+    border: 1px solid var(--color-stroke-2);
+}
+
+.status-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+.status-label {
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0.75;
+    margin-bottom: 8px;
+}
+
+.status-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Màu cho từng trạng thái */
+.status-card.pending    { border-left: 6px solid #ffc107; }
+.status-card.confirmed  { border-left: 6px solid #0d6efd; }
+.status-card.preparing  { border-left: 6px solid #17a2b8; }
+.status-card.shipping   { border-left: 6px solid #0dcaf0; }
+.status-card.delivered  { border-left: 6px solid #198754; }
+.status-card.cancelled  { border-left: 6px solid #dc3545; }
+
+.order-status-section,
+.payment-stats-section {
+    padding: 16px;
+}
+
+
+
+
+
+.payment-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.payment-card {
+    border-radius: 16px;
+    padding: 18px 20px;
+    background: var(--color-surface);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--color-stroke-2);
+    transition: 0.25s ease;
+}
+
+.payment-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+}
+
+.payment-label {
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+.payment-value {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.payment-percent {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Màu theo phương thức */
+.payment-card.cod   { border-left: 6px solid #ffc107; }
+.payment-card.vnpay { border-left: 6px solid #0d6efd; }

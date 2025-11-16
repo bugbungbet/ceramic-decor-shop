@@ -76,7 +76,7 @@ const StockEntrySchema = new Schema(
         // }],
     },
     {
-        timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
+         timestamps: true
     }
 );
 

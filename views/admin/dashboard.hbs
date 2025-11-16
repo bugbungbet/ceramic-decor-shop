@@ -1,22 +1,135 @@
 {{#> _wrappers/admin-wrapper}}
 
 <h1 class="page-title">Dashboard</h1>
-<p class="page-sub-title">Welcome, Admin!</p>
+<p class="page-sub-title">Welcome, {{user.fullName}}!</p>
 
-<div class="section animate-slide-in-up mt-2">
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
-<h1 class="page-title">Dashboard</h1>
+<div class="section animate-slide-in-up order-status-section mt-3">
+    <h3 class="section-title mb-2">Tình trạng đơn hàng</h3>
 
+    <div class="row g-3 order-status-grid">
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card pending">
+                <div class="card-body">
+                    <h6 class="status-label">Chờ duyệt</h6>
+                    <div class="status-value">{{stats.pending}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card confirmed">
+                <div class="card-body">
+                    <h6 class="status-label">Đã xác nhận</h6>
+                    <div class="status-value">{{stats.confirmed}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card preparing">
+                <div class="card-body">
+                    <h6 class="status-label">Đang chuẩn bị</h6>
+                    <div class="status-value">{{stats.preparing}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card shipping">
+                <div class="card-body">
+                    <h6 class="status-label">Đang giao</h6>
+                    <div class="status-value">{{stats.shipping}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card delivered">
+                <div class="card-body">
+                    <h6 class="status-label">Hoàn tất</h6>
+                    <div class="status-value">{{stats.delivered}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-6">
+            <div class="card status-card cancelled">
+                <div class="card-body">
+                    <h6 class="status-label">Đã hủy</h6>
+                    <div class="status-value">{{stats.cancelled}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
+
+
+{{!-- <div class="section animate-slide-in-up mt-2">
+    <!-- SECTION: Thống kê thanh toán -->
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Thống kê phương thức thanh toán</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row text-center">
+
+                <!-- COD -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                        <h6 class="text-secondary mb-2">Thanh toán COD</h6>
+                        <h3 class="text-dark fw-bold">{{paymentStats.cod.count}}</h3>
+                        <div class="text-muted">{{paymentStats.cod.percent}}%</div>
+                    </div>
+                </div>
+
+                <!-- VNPAY -->
+                <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                        <h6 class="text-secondary mb-2">Thanh toán VNPAY</h6>
+                        <h3 class="text-dark fw-bold">{{paymentStats.vnpay.count}}</h3>
+                        <div class="text-muted">{{paymentStats.vnpay.percent}}%</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class="section animate-slide-in-up payment-stats-section mt-3">
+    <h3 class="section-title mb-2">Thống kê phương thức thanh toán</h3>
+
+    <div class="row g-3 payment-stats-grid">
+
+        <!-- COD -->
+        <div class="col-md-6 col-12">
+            <div class="card payment-card cod">
+                <div class="card-body text-center">
+                    <h6 class="payment-label mb-1">Thanh toán COD</h6>
+                    <h3 class="payment-value">{{paymentStats.cod.count}}</h3>
+                    <div class="payment-percent">{{paymentStats.cod.percent}}%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VNPAY -->
+        <div class="col-md-6 col-12">
+            <div class="card payment-card vnpay">
+                <div class="card-body text-center">
+                    <h6 class="payment-label mb-1">Thanh toán VNPAY</h6>
+                    <h3 class="payment-value">{{paymentStats.vnpay.count}}</h3>
+                    <div class="payment-percent">{{paymentStats.vnpay.percent}}%</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 {{/ _wrappers/admin-wrapper}}

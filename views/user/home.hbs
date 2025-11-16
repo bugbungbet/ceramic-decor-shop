@@ -26,7 +26,7 @@
         </div>
     </section>
 
-    <section class="featured-collection">
+    {{!-- <section class="featured-collection">
         <div class="container">
             <h2 class="section-title">Bộ Sưu Tập Gốm Nổi Bật</h2>
             <p class="section-subtitle">
@@ -106,7 +106,92 @@
 
         </div>
 
+    </section> --}}
+
+
+
+    <section class="featured-collection">
+        <div class="container">
+            <h2 class="section-title">Danh Mục Sản Phẩm</h2>
+            <p class="section-subtitle">
+                Khám phá ba dòng sản phẩm chính mang đậm dấu ấn thủ công, phù hợp cho mọi không gian sống và phong cách
+                trang trí.
+            </p>
+        </div>
+
+        <div class="collection-list">
+
+            <!-- Danh mục 1: Bát đĩa -->
+            <div class="collection-item">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Bát Đĩa Gốm</h3>
+                        <h4 class="collection-subtitle">Tinh tế – bền đẹp – phù hợp cho bàn ăn gia đình Việt.</h4>
+                        <p class="collection-desc">
+                            Bộ sưu tập bát đĩa gốm mang thiết kế mộc mạc nhưng sang trọng, được tạo hình bởi các nghệ
+                            nhân lâu năm.
+                            Từng đường nét và lớp men đều được chế tác tỉ mỉ, mang lại cảm giác ấm cúng cho mỗi bữa cơm.
+                            Hoàn hảo cho gia đình, nhà hàng, hoặc làm quà tặng tinh tế.
+                        </p>
+                        <a href="/products?category=6c8e330e-13ce-4f18-9b1a-5e8e0692021b" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/category-1.png" alt="Danh mục Bát Đĩa">
+                </div>
+            </div>
+
+            <!-- Danh mục 2: Bình gốm -->
+            <div class="collection-item reverse">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Bình Gốm Nghệ Thuật</h3>
+                        <h4 class="collection-subtitle">Điểm nhấn trang trí cho mọi không gian sống.</h4>
+                        <p class="collection-desc">
+                            Các mẫu bình gốm được chế tác từ nguồn đất chọn lọc, kiểu dáng đa dạng từ truyền thống đến
+                            hiện đại.
+                            Mỗi sản phẩm là một tác phẩm nghệ thuật, mang lại sự hài hòa và thẩm mỹ cho phòng khách,
+                            sảnh, hoặc studio.
+                        </p>
+                        <a href="/products?category=a39858c4-21aa-4e1f-a8dd-fdb3020eaefb" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/category-2.png" alt="Danh mục Bình Gốm">
+                </div>
+            </div>
+
+            <!-- Danh mục 3: Decor -->
+            <div class="collection-item">
+                <div class="collection-content">
+                    <div class="inner">
+                        <h3 class="collection-title">Đồ Trang Trí Decor</h3>
+                        <h4 class="collection-subtitle">Đa dạng, độc đáo, làm mới không gian của bạn.</h4>
+                        <p class="collection-desc">
+                            Các sản phẩm decor nhỏ gọn nhưng ấn tượng, bao gồm tượng gốm, phụ kiện trang trí và đồ thủ
+                            công nghệ thuật.
+                            Phù hợp để tạo điểm nhấn trên kệ, bàn làm việc, phòng khách hoặc dùng làm quà tặng độc đáo.
+                        </p>
+                        <a href="/products?category=5087eee7-bad6-4c8a-bf58-caf26277eb9d" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collection-image">
+                    <img src="./images/category-3.png" alt="Danh mục Decor">
+                </div>
+            </div>
+
+        </div>
     </section>
+
+
+
+
 
     <section class="new-products-section">
         <div class="container">
@@ -211,7 +296,7 @@
     </section>
 
     <!-- Section Về chúng tôi -->
-    <section class="about-section">
+    <section id="about" class="about-section">
         <div class="section-container reverse">
             <div class="section-left">
                 <h3 class="section-title">Về chúng tôi</h3>
@@ -287,34 +372,45 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const items = document.querySelectorAll('.new-products-section .product-item');
-    const prevBtn = document.querySelector('.new-products-section .btn-nav.prev');
-    const nextBtn = document.querySelector('.new-products-section .btn-nav.next');
-    const perPage = 4;
-    const total = items.length;
-    let start = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+        const items = document.querySelectorAll('.new-products-section .product-item');
+        const prevBtn = document.querySelector('.new-products-section .btn-nav.prev');
+        const nextBtn = document.querySelector('.new-products-section .btn-nav.next');
+        const perPage = 4;
+        const total = items.length;
+        let start = 0;
 
-    function updateView() {
-        items.forEach((item, index) => {
-            item.style.display = (index >= start && index < start + perPage) ? 'block' : 'none';
+        function updateView() {
+            items.forEach((item, index) => {
+                item.style.display = (index >= start && index < start + perPage) ? 'block' : 'none';
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            start -= perPage;
+            if (start < 0) start = Math.max(total - perPage, 0); // quay về cuối nếu start < 0
+            updateView();
         });
-    }
 
-    prevBtn.addEventListener('click', () => {
-        start -= perPage;
-        if (start < 0) start = Math.max(total - perPage, 0); // quay về cuối nếu start < 0
-        updateView();
+        nextBtn.addEventListener('click', () => {
+            start += perPage;
+            if (start >= total) start = 0; // quay về đầu nếu vượt
+            updateView();
+        });
+
+        updateView(); // lần đầu hiển thị
+
+
+        const hash = window.location.hash;
+        if (hash) {
+            const target = document.querySelector(hash);
+            if (target) {
+                requestAnimationFrame(() => {
+                    target.scrollIntoView({ behavior: "smooth" });
+                });
+            }
+        }
     });
-
-    nextBtn.addEventListener('click', () => {
-        start += perPage;
-        if (start >= total) start = 0; // quay về đầu nếu vượt
-        updateView();
-    });
-
-    updateView(); // lần đầu hiển thị
-});
 
 
 </script>

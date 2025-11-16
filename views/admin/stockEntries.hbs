@@ -18,10 +18,10 @@
                         <th class="fit center">#</th>
                         <th class="w-3">Tên sản phẩm</th>
                         <th class="fit center">Ảnh</th>
-                        <th class="w-3">Số lượng lô hàng</th>
-                        <th class="w-3">Đã nhập</th>
-                        <th class="w-3">Tổng tồn kho</th>
-                        <th class="w-3">Giá bán</th>
+                        <th class="w-3 center">Số lượng lô hàng</th>
+                        <th class="w-3 center">Đã nhập</th>
+                        <th class="w-3 center">Tổng tồn kho</th>
+                        <th class="w-3 center">Giá bán</th>
                         {{!-- <th class="fit center">Hiển thị</th> --}}
                         <th class="fit center">Hành động</th>
                     </tr>
@@ -36,10 +36,10 @@
                         <td class="fit center">
                             <img class="product-image table-image" src="{{this.image}}" alt="{{this.name}}" />
                         </td>
-                        <td><span class="">{{this.totalBatches}}</span></td>
-                        <td><span class="">{{this.totalImported}}</span></td>
-                        <td><span class="">{{this.totalStock}}</span></td>
-                        <td><span class="">{{formatCurrency this.price}}</span></td>
+                        <td class="center"><span class="">{{this.totalBatches}}</span></td>
+                        <td class="center"><span class="">{{this.totalImported}}</span></td>
+                        <td class="center"><span class="">{{this.totalStock}}</span></td>
+                        <td class="center"><span class="">{{formatCurrency this.price}}</span></td>
 
                         {{!-- <td class="fit center">
                             <div class="switch" data-active="{{this.isActive}}" data-id="{{this._id}}">

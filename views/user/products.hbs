@@ -11,7 +11,7 @@
                 <form action="/products" method="GET" class="banner-search">
                     <div class="search-box">
                         <span class="search-icon"><i class="bi bi-search"></i></span>
-                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." />
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm..." value="{{q}}" />
                         <button type="submit" class="search-btn"><i class="bi bi-send"></i></button>
                     </div>
                 </form>
@@ -41,7 +41,6 @@
                     {{/each}}
                 </div>
 
-
                 <!-- Sắp xếp giá -->
                 <div class="sort-price">
                     <label>Giá:</label>
@@ -52,13 +51,17 @@
 
             <!-- Danh sách sản phẩm -->
             <div class="product-list">
-                {{#each allProducts}}
-                <a href="#" class="product-item">
+                {{#if searchResults.length}}
+                {{#each searchResults}}
+                <a href="/products/{{this._id}}" class="product-item">
                     <img src="{{this.images.[0]}}" alt="{{this.name}}">
                     <h4 class="product-name">{{this.name}}</h4>
                     <p class="product-price">{{formatCurrency this.price}}</p>
                 </a>
                 {{/each}}
+                {{else}}
+                <p>Không tìm thấy sản phẩm nào phù hợp.</p>
+                {{/if}}
                 {{!-- <a class="product-item">
                     <img src="/images/test_1.png" alt="Sản phẩm 1">
                     <h4 class="product-name">Tên sản phẩm 1</h4>
@@ -127,84 +130,81 @@
 
     <section class="featured-collection">
         <div class="container">
-            <h2 class="section-title">Bộ Sưu Tập Gốm Nổi Bật</h2>
+            <h2 class="section-title">Danh Mục Sản Phẩm</h2>
             <p class="section-subtitle">
-                Mỗi dòng gốm là một hành trình từ đất mẹ đến không gian sống của bạn.
-                Bàn tay người nghệ nhân thổi hồn vào từng hình khối, từng lớp men,
-                tạo nên những bộ sưu tập từ mộc mạc truyền thống đến thanh thoát hiện đại.
+                Khám phá ba dòng sản phẩm chính mang đậm dấu ấn thủ công, phù hợp cho mọi không gian sống và phong cách
+                trang trí.
             </p>
         </div>
 
         <div class="collection-list">
-            <!-- Item 1 -->
+
+            <!-- Danh mục 1: Bát đĩa -->
             <div class="collection-item">
                 <div class="collection-content">
                     <div class="inner">
-                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
-                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <h3 class="collection-title">Bát Đĩa Gốm</h3>
+                        <h4 class="collection-subtitle">Tinh tế – bền đẹp – phù hợp cho bàn ăn gia đình Việt.</h4>
                         <p class="collection-desc">
-                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
-                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
-                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
-
-                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
-                            Đông.
+                            Bộ sưu tập bát đĩa gốm mang thiết kế mộc mạc nhưng sang trọng, được tạo hình bởi các nghệ
+                            nhân lâu năm.
+                            Từng đường nét và lớp men đều được chế tác tỉ mỉ, mang lại cảm giác ấm cúng cho mỗi bữa cơm.
+                            Hoàn hảo cho gia đình, nhà hàng, hoặc làm quà tặng tinh tế.
                         </p>
-                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
-                                class="bi bi-arrow-right"></i></a>
+                        <a href="/products?category=6c8e330e-13ce-4f18-9b1a-5e8e0692021b" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="collection-image">
-                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                    <img src="./images/category-1.png" alt="Danh mục Bát Đĩa">
                 </div>
             </div>
 
+            <!-- Danh mục 2: Bình gốm -->
             <div class="collection-item reverse">
                 <div class="collection-content">
                     <div class="inner">
-                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
-                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <h3 class="collection-title">Bình Gốm Nghệ Thuật</h3>
+                        <h4 class="collection-subtitle">Điểm nhấn trang trí cho mọi không gian sống.</h4>
                         <p class="collection-desc">
-                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
-                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
-                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
-
-                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
-                            Đông.
+                            Các mẫu bình gốm được chế tác từ nguồn đất chọn lọc, kiểu dáng đa dạng từ truyền thống đến
+                            hiện đại.
+                            Mỗi sản phẩm là một tác phẩm nghệ thuật, mang lại sự hài hòa và thẩm mỹ cho phòng khách,
+                            sảnh, hoặc studio.
                         </p>
-                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
-                                class="bi bi-arrow-right"></i></a>
+                        <a href="/products?category=a39858c4-21aa-4e1f-a8dd-fdb3020eaefb" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="collection-image">
-                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                    <img src="./images/category-2.png" alt="Danh mục Bình Gốm">
                 </div>
             </div>
 
+            <!-- Danh mục 3: Decor -->
             <div class="collection-item">
                 <div class="collection-content">
                     <div class="inner">
-                        <h3 class="collection-title">Essence of Earth – Hồn Đất Việt</h3>
-                        <h4 class="collection-subtitle">Gốm mộc mang hơi thở truyền thống – chạm vào hồn đất Việt.</h4>
+                        <h3 class="collection-title">Đồ Trang Trí Decor</h3>
+                        <h4 class="collection-subtitle">Đa dạng, độc đáo, làm mới không gian của bạn.</h4>
                         <p class="collection-desc">
-                            Lấy cảm hứng từ những làng gốm truyền thống Việt Nam – nơi đất, nước và lửa hòa quyện tạo
-                            nên hình hài mộc mạc, chân thành. Bộ sưu tập tôn vinh vẻ đẹp tự nhiên của đất nung, gợi nhớ
-                            đến ký ức làng quê, đến sự giản dị nhưng đầy sức sống.
-
-                            Phù hợp cho: Không gian rustic, vintage, quán cà phê, hoặc phòng khách mang phong cách Á
-                            Đông.
+                            Các sản phẩm decor nhỏ gọn nhưng ấn tượng, bao gồm tượng gốm, phụ kiện trang trí và đồ thủ
+                            công nghệ thuật.
+                            Phù hợp để tạo điểm nhấn trên kệ, bàn làm việc, phòng khách hoặc dùng làm quà tặng độc đáo.
                         </p>
-                        <a href="/products/1" class="btn btn-view-more">Xem bộ sưu tập <i
-                                class="bi bi-arrow-right"></i></a>
+                        <a href="/products?category=5087eee7-bad6-4c8a-bf58-caf26277eb9d" class="btn btn-view-more">
+                            Xem danh mục <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="collection-image">
-                    <img src="./images/test_1.png" alt="Essence of Earth – Hồn Đất Việt">
+                    <img src="./images/category-3.png" alt="Danh mục Decor">
                 </div>
             </div>
 
         </div>
-
     </section>
 
 
