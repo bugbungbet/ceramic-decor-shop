@@ -244,14 +244,13 @@ class PaymentController {
             let order;
 
             if (paymentMethod === 'cod') {
-                order = await Order.findOne({ orderCode }).lean();
+                order = await Order.findOne({ orderCode });
                 if (!order) {
                     return res.render('user/payment-result', {
                         success: false,
                         message: 'Không tìm thấy đơn hàng!',
                     });
                 }
-                console.log(order);
                 return res.render('user/payment-result', {
                     success: true,
                     message: 'Đặt hàng thành công!.',
@@ -286,7 +285,7 @@ class PaymentController {
                 const responseCode = vnp_Params.vnp_ResponseCode;
                 const orderCodeVN = vnp_Params.vnp_TxnRef;
 
-                order = await Order.findOne({ orderCode: orderCodeVN }).lean();
+                order = await Order.findOne({ orderCode: orderCodeVN });
                 if (!order) {
                     return res.render('user/payment-result', {
                         success: false,

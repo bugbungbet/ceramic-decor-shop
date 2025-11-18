@@ -44,7 +44,7 @@ const CartSchema = new mongoose.Schema({
     },
 }, {
     versionKey: false,
-    timestamps: true
+    timestamps: false
 });
 
 // Export model

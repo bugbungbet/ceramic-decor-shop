@@ -76,6 +76,7 @@ class OrdersController {
             const review = new Review({
                 userId,
                 productId: orderItem.productId,
+                orderId,
                 rating,
                 comment,
                 images

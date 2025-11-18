@@ -1973,12 +1973,12 @@ input:-webkit-autofill:active {
 }
 
 .payment-address .info-row {
-    margin-top: 12px;
+    /* margin-top: 12px; */
     display: grid;
     grid-template-columns: 1fr 2fr;
     align-items: center;
     gap: 12px;
-    margin-left: 24px;
+    margin: 12px 24px 0;
 }
 
 .payment-address .info-left {

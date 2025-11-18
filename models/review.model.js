@@ -23,6 +23,12 @@ const ReviewSchema = new mongoose.Schema({
         ref: 'Product'
     },
 
+    orderId: {
+        type: String,
+        required: true,
+        ref: 'Order'
+    },
+
     // Điểm số từ 1 -> 5
     rating: {
         type: Number,
