@@ -17,11 +17,7 @@ function createUploader(folderName = 'common') {
         destination: function (req, file, cb) {
             cb(null, UPLOAD_FOLDER);
         },
-        // filename: function (req, file, cb) {
-        //     const ext = path.extname(file.originalname);
-        //     const fileName = Date.now() + '-' + file.fieldname + ext;
-        //     cb(null, fileName);
-        // }
+     
         filename: function (req, file, cb) {
             const ext = path.extname(file.originalname);
             const fileName = Date.now() + '-' + uuidv4() + ext;
@@ -31,7 +27,7 @@ function createUploader(folderName = 'common') {
 
     // Filter ảnh
     const fileFilter = (req, file, cb) => {
-        const allowed = /jpeg|jpg|png|gif/;
+        const allowed = /jpeg|jpg|png|gif|webp/;
         const isValidExt = allowed.test(path.extname(file.originalname).toLowerCase());
         const isValidMime = allowed.test(file.mimetype);
         if (isValidExt && isValidMime) {

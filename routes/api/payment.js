@@ -9,5 +9,6 @@ const PaymentController = require('../../controllers/api/user/payment.controller
 
 router.use(authUser);
 router.post('/create', asyncHandler(PaymentController.create));
+router.post('/buy-now', asyncHandler(PaymentController.buyNow));
 
 module.exports = router;

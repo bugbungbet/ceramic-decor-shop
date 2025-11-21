@@ -1477,6 +1477,17 @@ input:-webkit-autofill:active {
     cursor: pointer;
 }
 
+.btn-buy-now {
+    margin-top: 16px;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 26px;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-radius: 30px;
+    cursor: pointer;
+}
+
 .product-extra-info {
     margin-bottom: 56px;
 }

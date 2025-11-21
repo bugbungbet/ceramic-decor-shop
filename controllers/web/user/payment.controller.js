@@ -112,7 +112,7 @@ class PaymentController {
                     { $group: { _id: null, total: { $sum: '$remainingQuantity' } } }
                 ]);
                 const availableQty = totalStock[0]?.total || 0;
-                
+
                 // Nếu hết hàng, tạm thời set isActive = false
                 const isActive = product.isActive && availableQty > 0;
 
@@ -145,6 +145,108 @@ class PaymentController {
         } catch (err) {
             console.error(err);
             error(res, 500, 'Có lỗi xảy ra khi lấy thông tin thanh toán');
+        }
+    }
+
+    async buyNow(req, res) {
+        try {
+            const userId = req.user?._id;
+            if (!userId) return error(res, 401, 'Bạn chưa đăng nhập');
+
+            const { productId, quantity } = req.body;
+
+            if (!productId || !quantity || quantity < 1) {
+                return error(res, 400, 'Thiếu thông tin sản phẩm hoặc số lượng không hợp lệ');
+            }
+
+            // Lấy product
+            const product = await Product.findById(productId)
+                .populate({ path: 'categoryId', select: 'name' })
+                .lean();
+
+            if (!product) {
+                return error(res, 404, 'Sản phẩm không tồn tại');
+            }
+
+            // Kiểm tra tồn kho
+            const totalStock = await StockEntry.aggregate([
+                { $match: { productId: product._id, status: 'imported', remainingQuantity: { $gt: 0 } } },
+                { $group: { _id: null, total: { $sum: '$remainingQuantity' } } }
+            ]);
+
+            const availableQty = totalStock[0]?.total || 0;
+            const isActive = product.isActive && availableQty > 0;
+
+            if (!isActive) {
+                return error(res, 400, 'Sản phẩm tạm hết hàng');
+            }
+
+            // Build item để render
+            const price = product.price;
+            const total = price * quantity;
+
+            const items = [
+                {
+                    productId,
+                    name: product.name,
+                    image: product.images?.[0],
+                    category: product.categoryId?.name,
+                    price,
+                    quantity,
+                    isActive,
+                    total
+                }
+            ];
+
+            const totalAmount = total;
+            // Lấy user + địa chỉ
+            const user = await User.findById(userId).select('-password').lean();
+            if (!user) return error(res, 404, 'Người dùng không tồn tại');
+
+            const locations = JSON.parse(
+                fs.readFileSync(path.join(__dirname, '../../../data.json'), 'utf-8')
+            );
+
+            const getNameById = () => {
+                const province = locations.find(p => p.Id === user.provinceId);
+                if (!province) return {};
+
+                const district = province.Districts.find(d => d.Id === user.districtId);
+                const ward = district?.Wards.find(w => w.Id === user.wardCode);
+
+                return {
+                    provinceName: province?.Name || '',
+                    districtName: district?.Name || '',
+                    wardName: ward?.Name || ''
+                };
+            };
+
+            const { provinceName, districtName, wardName } = getNameById();
+
+            const fullAddress = [
+                wardName,
+                districtName,
+                provinceName,
+                user.address
+            ].filter(Boolean).join(', ');
+
+
+            // Render payment
+            res.render('user/payment', {
+                title: 'Thanh toán',
+                items,
+                totalAmount,
+                user,
+                fullAddress,
+                productIds: JSON.stringify([productId]),   // vẫn giữ để dùng chung logic
+                isBuyNow: true,                              // flag nếu bạn cần phân biệt
+                buyNowProductId: productId,
+                buyNowQuantity: quantity
+            });
+
+        } catch (err) {
+            console.error(err);
+            error(res, 500, 'Có lỗi xảy ra khi xử lý mua ngay');
         }
     }
 

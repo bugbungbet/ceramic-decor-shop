@@ -35,16 +35,6 @@ class PaymentController {
                 _id: { $in: selectedItems.map(p => p.productId) }
             }).lean();
 
-            // Kiểm tra sản phẩm inactive
-            // const inactiveProducts = productDetails.filter(p => !p.isActive);
-            // if (inactiveProducts.length > 0) {
-            //     return error(
-            //         res,
-            //         400,
-            //         `Không thể đặt hàng. Sản phẩm "${inactiveProducts.map(p => p.name).join(', ')}" hiện không còn kinh doanh. Vui lòng làm mới giỏ hàng trước khi tiếp tục.`
-            //     );
-            // }
-
             // Kiểm tra tồn kho
             const productIdsList = selectedItems.map(p => p.productId);
             const stockData = await StockEntry.aggregate([
@@ -164,7 +154,7 @@ class PaymentController {
                 vnp_Params['vnp_SecureHash'] = signed;
                 paymentUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
             } else if (paymentType === 'cod') {
-                paymentUrl = `payment/result?orderCode=${newOrder.orderCode}&paymentMethod=cod`;
+                paymentUrl = `/payment/result?orderCode=${newOrder.orderCode}&paymentMethod=cod`;
             }
 
             await cart.save();
@@ -180,6 +170,119 @@ class PaymentController {
         }
     }
 
+
+    async buyNow(req, res) {
+        try {
+            const userId = req.user._id;
+            const { productId, quantity = 1, paymentType } = req.body;
+
+            if (!productId)
+                return error(res, 400, 'Thiếu productId');
+
+            // Lấy thông tin sản phẩm
+            const product = await Product.findById(productId).lean();
+            if (!product) return error(res, 404, 'Sản phẩm không tồn tại');
+
+            // Kiểm tra tồn kho
+            const stock = await StockEntry.aggregate([
+                { $match: { productId, status: 'imported', remainingQuantity: { $gt: 0 } } },
+                { $group: { _id: '$productId', totalStock: { $sum: '$remainingQuantity' } } }
+            ]);
+
+            if (!stock.length || stock[0].totalStock < quantity)
+                return error(res, 400, 'Sản phẩm hết hàng');
+
+            // Lấy info user
+            const user = await User.findById(userId);
+            if (!user.fullName || !user.phoneNumber || !user.address)
+                return error(res, 400, 'Vui lòng cập nhật thông tin nhận hàng trước khi thanh toán.');
+
+            // Tạo đơn
+            const newOrder = await Order.create({
+                userId,
+                toName: user.fullName,
+                toPhone: user.phoneNumber,
+                toAddress: user.address,
+                provinceId: user.provinceId,
+                districtId: user.districtId,
+                wardCode: user.wardCode,
+                paymentMethod: paymentType === 'vnpay' ? 'vnpay' : 'cod',
+                totalPrice: product.price * quantity,
+                status: 'pending',
+            });
+
+            // OrderItem
+            await OrderItem.create({
+                orderId: newOrder._id,
+                productId,
+                quantity,
+                price: product.price,
+                batches: []
+            });
+
+            // Xử lý redirect thanh toán
+            let paymentUrl = null;
+
+            if (paymentType === 'vnpay') {
+                process.env.TZ = 'Asia/Ho_Chi_Minh';
+                let date = new Date();
+                let createDate = moment(date).format('YYYYMMDDHHmmss');
+                let ipAddr = req.headers['x-forwarded-for'] ||
+                    req.connection.remoteAddress ||
+                    req.socket.remoteAddress ||
+                    req.connection.socket.remoteAddress;
+
+                paymentUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+                let tmnCode = process.env.VNP_TMN_CODE;
+                let secretKey = process.env.VNP_HASH_SECRET;
+                let returnUrl = process.env.VNP_RETURN_URL;
+                let amount = totalPrice * 100;;
+                const orderCode = newOrder.orderCode;
+                let orderId = orderCode;
+
+                // let bankCode = req.body.bankCode;
+
+                let locale = 'vn'
+                let currCode = 'VND';
+                let vnp_Params = {};
+                vnp_Params['vnp_Version'] = '2.1.0';
+                vnp_Params['vnp_Command'] = 'pay';
+                vnp_Params['vnp_TmnCode'] = tmnCode;
+                vnp_Params['vnp_Locale'] = locale;
+                vnp_Params['vnp_CurrCode'] = currCode;
+                vnp_Params['vnp_TxnRef'] = orderId;
+                vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+                vnp_Params['vnp_OrderType'] = 'other';
+                vnp_Params['vnp_Amount'] = amount;
+                vnp_Params['vnp_ReturnUrl'] = returnUrl;
+                vnp_Params['vnp_IpAddr'] = ipAddr;
+                vnp_Params['vnp_CreateDate'] = createDate;
+                // if (bankCode !== null && bankCode !== '') {
+                //     vnp_Params['vnp_BankCode'] = bankCode;
+                // }
+
+                vnp_Params = sortObject(vnp_Params);
+
+                let querystring = require('qs');
+                let signData = querystring.stringify(vnp_Params, { encode: false });
+                let crypto = require("crypto");
+                let hmac = crypto.createHmac("sha512", secretKey);
+                let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+                vnp_Params['vnp_SecureHash'] = signed;
+                paymentUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
+            } else {
+                paymentUrl = `/payment/result?orderCode=${newOrder.orderCode}&paymentMethod=cod`;
+            }
+            return success(res, 200, 'Tạo đơn BUY NOW thành công', {
+                orderId: newOrder._id,
+                paymentUrl
+            });
+
+        } catch (err) {
+            console.error(err);
+            return error(res, 500, 'Lỗi khi mua ngay');
+        }
+    }
 }
 
 function sortObject(obj) {

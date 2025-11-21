@@ -139,6 +139,10 @@
                         <img src="/images/vnp-logo.svg" alt="VNPAY" class="vnpay-logo">
                     </div>
 
+                    <input type="hidden" id="isBuyNow" value="{{isBuyNow}}">
+                    <input type="hidden" id="buyNowProductId" value="{{buyNowProductId}}">
+                    <input type="hidden" id="buyNowQuantity" value="{{buyNowQuantity}}">
+
                     <button type="submit" id="checkoutBtn" class="btn btn-primary mt-3">Đặt hàng</button>
                 </form>
             </div>
@@ -175,25 +179,52 @@
         document.getElementById('checkoutBtn').addEventListener('click', async function (e) {
             e.preventDefault();
 
-
-            const productInput = document.getElementById('productIds').value;
-            const productIds = productInput ? JSON.parse(productInput) : [];
-            if (!productIds.length) {
-                return showToast("Bạn chưa chọn sản phẩm nào", "error");
-            }
+            const isBuyNow = document.getElementById('isBuyNow').value === "true";
 
             const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
 
             try {
                 showLoading("Đang tạo đơn hàng...");
 
-                const res = await fetch('/api/payment/create', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ productIds, paymentType })
-                });
+                let res, result;
 
-                const result = await res.json();
+                if (isBuyNow) {
+                    // ---- BUY NOW ----
+                    const productId = document.getElementById('buyNowProductId').value;
+                    const quantity = parseInt(document.getElementById('buyNowQuantity').value) || 1;
+
+                    res = await fetch('/api/payment/buy-now', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            productId,
+                            quantity,
+                            paymentType
+                        })
+                    });
+
+                    result = await res.json();
+
+                } else {
+                    // ---- CHECKOUT GIỎ HÀNG ----
+                    const productInput = document.getElementById('productIds').value;
+                    const productIds = productInput ? JSON.parse(productInput) : [];
+
+                    if (!productIds.length) {
+                        hideLoading();
+                        return showToast("Bạn chưa chọn sản phẩm nào", "error");
+                    }
+
+                    res = await fetch('/api/payment/create', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ productIds, paymentType })
+                    });
+
+                    result = await res.json();
+                }
+                                console.log(result);
+
                 hideLoading();
 
                 if (result.success) {
@@ -213,6 +244,7 @@
                 showToast("Có lỗi xảy ra khi tạo đơn hàng", "error");
             }
         });
+
 
     });
 

@@ -21,6 +21,7 @@ class Product {
 
         // Add to cart button
         this.btnAddToCart = document.getElementById("addToCart");
+        this.btnBuyNow = document.getElementById("buyNow");
 
         if (this.btnAddToCart) {
             this.productId = this.btnAddToCart.dataset.id;      // data-id
@@ -49,6 +50,9 @@ class Product {
         // Add to cart
         if (this.btnAddToCart) {
             this.btnAddToCart.addEventListener("click", () => this.addToCart());
+        }
+        if (this.btnBuyNow) {
+            this.btnBuyNow.addEventListener("click", () => this.buyNow());
         }
     }
     handleThumbnailClick(thumb) {
@@ -89,7 +93,7 @@ class Product {
 
             if (res.ok && result.success) {
                 showToast(result.message || "Đã thêm vào giỏ hàng!", "success");
-                document.dispatchEvent(new CustomEvent("cartUpdated", { detail: result }));
+                // document.dispatchEvent(new CustomEvent("cartUpdated", { detail: result }));
             } else {
                 showToast(result.message || "Thêm giỏ hàng thất bại!", "error");
             }
@@ -99,6 +103,72 @@ class Product {
             showToast("Có lỗi xảy ra khi thêm giỏ hàng!", "error");
         }
     }
+
+    // async buyNow() {
+    //     const quantity = parseInt(this.qtyInput.value) || 1;
+    //     const productId = this.btnBuyNow.dataset.id;
+    //     if (!productId) return;
+
+    //     try {
+    //         showLoading("Đang xử lý mua ngay...");
+
+    //         const res = await fetch("/payment/buy-now", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //                 productId: productId,
+    //                 quantity
+    //             })
+    //         });
+
+    //         hideLoading();
+
+    //         // Nếu buy-now dùng res.render → server sẽ redirect
+    //         // => ta kiểm tra nếu server redirect thì chuyển hướng theo
+    //         // if (res.redirected) {
+    //         //     window.location.href = res.url;
+    //         //     return;
+    //         // }
+
+    //         const result = await res.json();
+
+    //         if (res.ok && result.success) {
+    //             // window.location.href = "/payment";
+    //         } else {
+    //             showToast(result.message || "Mua ngay thất bại!", "error");
+    //         }
+
+    //     } catch (err) {
+    //         hideLoading();
+    //         console.error("Lỗi khi mua ngay:", err);
+    //         showToast("Có lỗi xảy ra khi xử lý mua ngay!", "error");
+    //     }
+    // }
+
+    buyNow() {
+        const quantity = parseInt(this.qtyInput.value) || 1;
+        const productId = this.btnBuyNow.dataset.id;
+        if (!productId) return;
+
+        showLoading("Đang xử lý mua ngay...");
+
+        // Tạo form POST
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/payment/buy-now";
+
+        // Thêm input ẩn
+        form.innerHTML = `
+        <input type="hidden" name="productId" value="${productId}">
+        <input type="hidden" name="quantity" value="${quantity}">
+    `;
+
+        document.body.appendChild(form);
+
+        // Submit form → browser tự chuyển hướng
+        form.submit();
+    }
+
 
 }
 
