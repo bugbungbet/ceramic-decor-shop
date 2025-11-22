@@ -1,6 +1,7 @@
 const Cart = require('../../../models/cart.model');
 const Product = require('../../../models/product.model');
 const Order = require('../../../models/order.model');
+const OrderItem = require('../../../models/orderItem.model');
 const User = require('../../../models/user.model');
 const StockEntry = require('../../../models/stockEntry.model');
 const fs = require('fs');
@@ -84,24 +85,6 @@ class PaymentController {
                 user.address
             ].filter(Boolean).join(', ');
 
-            // Ghép thông tin cart + product + tính tổng tiền
-            // const items = selectedCartItems.map(item => {
-            //     const product = productDetails.find(p => p._id === item.productId);
-            //     if (!product) return null;
-
-            //     const total = item.price * item.quantity;
-            //     return {
-            //         productId: item.productId,
-            //         name: product.name,
-            //         image: product.images[0],
-            //         category: product.categoryId.name,
-            //         price: item.price,
-            //         quantity: item.quantity,
-            //         isActive: product.isActive,
-            //         total
-            //     };
-            // }).filter(Boolean);
-            // console.log(items);
             const items = await Promise.all(selectedCartItems.map(async (item) => {
                 const product = productDetails.find(p => p._id.toString() === item.productId.toString());
                 if (!product) return null;
@@ -407,6 +390,20 @@ class PaymentController {
                 if (responseCode === '00') {
                     order.paymentStatus = 'paid';
                     order.status = 'confirmed';
+
+                    try {
+                        await deductStock(order._id);
+                    } catch (err) {
+                        console.error(err);
+                        // nếu không đủ hàng, có thể chuyển trạng thái về pending + hiển thị lỗi
+                        // order.status = 'pending';
+                        // await order.save();
+                        return res.render('user/payment-result', {
+                            success: false,
+                            message: `Thanh toán thành công nhưng ${err.message}`,
+                            order
+                        });
+                    }
                 } else {
                     order.paymentStatus = 'unpaid';
                     order.status = 'pending';
@@ -431,6 +428,44 @@ class PaymentController {
         }
     }
 
+}
+async function deductStock(orderId) {
+    const items = await OrderItem.find({ orderId });
+
+    for (const item of items) {
+        // kiểm tra đủ hàng
+        const totalStock = await StockEntry.aggregate([
+            { $match: { productId: item.productId, status: 'imported', remainingQuantity: { $gt: 0 } } },
+            { $group: { _id: null, total: { $sum: '$remainingQuantity' } } }
+        ]);
+        const availableQty = totalStock[0]?.total || 0;
+        if (availableQty < item.quantity) {
+            throw new Error(`Sản phẩm ${item.productId} không đủ hàng trong kho (cần ${item.quantity}, còn ${availableQty})`);
+        }
+
+        // trừ kho FIFO
+        let needQty = item.quantity;
+        const batches = await StockEntry.find({
+            productId: item.productId,
+            status: 'imported',
+            remainingQuantity: { $gt: 0 }
+        }).sort({ importDate: 1 });
+
+        const usedBatches = [];
+        for (const batch of batches) {
+            if (needQty <= 0) break;
+            const take = Math.min(batch.remainingQuantity, needQty);
+            batch.remainingQuantity -= take;
+            if (batch.remainingQuantity === 0) batch.status = 'sold_out';
+            await batch.save();
+
+            usedBatches.push({ batchCode: batch.batchCode, quantity: take });
+            needQty -= take;
+        }
+
+        item.batches = usedBatches;
+        await item.save();
+    }
 }
 
 function sortObject(obj) {

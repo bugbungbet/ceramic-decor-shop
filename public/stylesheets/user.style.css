@@ -2705,6 +2705,16 @@ input:-webkit-autofill:active {
     font-size: 14px;
 
 }
+.order-item-footer .btn-payment {
+    background-color: transparent;
+    border: 1px solid var(--color-black);
+    padding: 12px 16px;
+    border-radius: 21px;
+    color: var(--color-black);
+    font-weight: bold;
+    font-size: 14px;
+
+}
 
 
 /* ===========================

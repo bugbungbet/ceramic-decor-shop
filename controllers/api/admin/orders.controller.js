@@ -34,10 +34,16 @@ class OrderController {
             }
 
 
-            // ========================
-            // 🔹 Khi admin xác nhận đơn
-            // ========================
+            // Khi admin xác nhận đơn
             if (status === 'confirmed') {
+                if (order.paymentMethod !== 'cod' && order.paymentStatus !== 'paid') {
+                    return error(
+                        res,
+                        400,
+                        `Đơn này thanh toán qua ${order.paymentMethod.toUpperCase()} nhưng chưa thanh toán thành công. Không thể xác nhận đơn hàng.`
+                    );
+                }
+
                 const items = await OrderItem.find({ orderId: order._id });
 
                 // kiểm tra đủ hàng trước khi trừ
@@ -88,8 +94,6 @@ class OrderController {
                     await item.save();
                 }
             }
-
-
 
             order.status = status;
             await order.save();

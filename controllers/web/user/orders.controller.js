@@ -6,6 +6,9 @@ const User = require('../../../models/user.model');
 const fs = require('fs');
 const path = require('path');
 
+const request = require('request');
+const moment = require('moment');
+
 
 class OrdersController {
     async overview(req, res) {
@@ -55,7 +58,60 @@ class OrdersController {
                 });
 
                 order.canCancel = order.status === "pending";
-                
+                order.canPay = order.status === "pending" && order.paymentMethod === "vnpay";
+
+                if (order.canPay) {
+                    let paymentUrl = null
+                    if (order.paymentMethod === 'vnpay') {
+                        process.env.TZ = 'Asia/Ho_Chi_Minh';
+                        let date = new Date();
+                        let createDate = moment(date).format('YYYYMMDDHHmmss');
+                        let ipAddr = req.headers['x-forwarded-for'] ||
+                            req.connection.remoteAddress ||
+                            req.socket.remoteAddress ||
+                            req.connection.socket.remoteAddress;
+
+                        paymentUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+                        let tmnCode = process.env.VNP_TMN_CODE;
+                        let secretKey = process.env.VNP_HASH_SECRET;
+                        let returnUrl = process.env.VNP_RETURN_URL;
+                        let amount = order.totalPrice * 100;;
+                        const orderCode = order.orderCode;
+                        let orderId = orderCode;
+
+                        // let bankCode = req.body.bankCode;
+
+                        let locale = 'vn'
+                        let currCode = 'VND';
+                        let vnp_Params = {};
+                        vnp_Params['vnp_Version'] = '2.1.0';
+                        vnp_Params['vnp_Command'] = 'pay';
+                        vnp_Params['vnp_TmnCode'] = tmnCode;
+                        vnp_Params['vnp_Locale'] = locale;
+                        vnp_Params['vnp_CurrCode'] = currCode;
+                        vnp_Params['vnp_TxnRef'] = orderId;
+                        vnp_Params['vnp_OrderInfo'] = 'Thanh toan cho ma GD:' + orderId;
+                        vnp_Params['vnp_OrderType'] = 'other';
+                        vnp_Params['vnp_Amount'] = amount;
+                        vnp_Params['vnp_ReturnUrl'] = returnUrl;
+                        vnp_Params['vnp_IpAddr'] = ipAddr;
+                        vnp_Params['vnp_CreateDate'] = createDate;
+                        // if (bankCode !== null && bankCode !== '') {
+                        //     vnp_Params['vnp_BankCode'] = bankCode;
+                        // }
+
+                        vnp_Params = sortObject(vnp_Params);
+
+                        let querystring = require('qs');
+                        let signData = querystring.stringify(vnp_Params, { encode: false });
+                        let crypto = require("crypto");
+                        let hmac = crypto.createHmac("sha512", secretKey);
+                        let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+                        vnp_Params['vnp_SecureHash'] = signed;
+                        paymentUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
+                        order.paymentUrl = paymentUrl;
+                    }
+                }
             }
             res.render("user/orders", {
                 title: "Quản lý đơn hàng",
@@ -159,4 +215,19 @@ class OrdersController {
     }
 }
 
+function sortObject(obj) {
+    let sorted = {};
+    let str = [];
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            str.push(encodeURIComponent(key));
+        }
+    }
+    str.sort();
+    for (let i = 0; i < str.length; i++) {
+        // encode value, space => '+', giống demo VNPay
+        sorted[decodeURIComponent(str[i])] = encodeURIComponent(obj[decodeURIComponent(str[i])]).replace(/%20/g, "+");
+    }
+    return sorted;
+}
 module.exports = new OrdersController();

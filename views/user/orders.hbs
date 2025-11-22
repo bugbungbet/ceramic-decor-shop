@@ -11,23 +11,23 @@
                 Tất cả
             </a>
 
-            <a href="/orders?status=pending" class="tab-item {{#if (eq activeStatus "pending")}}active{{/if}}">
+            <a href="/orders?status=pending" class="tab-item {{#if (eq activeStatus " pending")}}active{{/if}}">
                 Chờ xác nhận
             </a>
 
-            <a href="/orders?status=confirmed" class="tab-item {{#if (eq activeStatus "confirmed")}}active{{/if}}">
+            <a href="/orders?status=confirmed" class="tab-item {{#if (eq activeStatus " confirmed")}}active{{/if}}">
                 Đã xác nhận
             </a>
 
-            <a href="/orders?status=shipping" class="tab-item {{#if (eq activeStatus "shipping")}}active{{/if}}">
+            <a href="/orders?status=shipping" class="tab-item {{#if (eq activeStatus " shipping")}}active{{/if}}">
                 Đang giao
             </a>
 
-            <a href="/orders?status=delivered" class="tab-item {{#if (eq activeStatus "delivered")}}active{{/if}}">
+            <a href="/orders?status=delivered" class="tab-item {{#if (eq activeStatus " delivered")}}active{{/if}}">
                 Hoàn tất
             </a>
 
-            <a href="/orders?status=cancelled" class="tab-item {{#if (eq activeStatus "cancelled")}}active{{/if}}">
+            <a href="/orders?status=cancelled" class="tab-item {{#if (eq activeStatus " cancelled")}}active{{/if}}">
                 Đã huỷ
             </a>
 
@@ -117,8 +117,12 @@
                             Thành tiền: <br><strong>{{formatCurrency totalPrice}}</strong>
                         </div>
                         <div class="order-actions">
+
                             {{#if canCancel}}
                             <button class="btn btn-cancel" data-id="{{_id}}">Huỷ đơn hàng</button>
+                            {{/if}}
+                            {{#if canPay}}
+                            <a href="{{this.paymentUrl}}" class="btn btn-payment">Thanh toán</a>
                             {{/if}}
 
                             {{!-- {{#if (eq status "delivered")}}
